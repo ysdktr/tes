@@ -661,29 +661,32 @@
       calculateResult();
     }
 	
-    function applyMultiplier(data) {
-      var radioButtons = document.getElementsByName('radioButton');
-      var multiplier = 1.0;
-      for (var i = 0; i < radioButtons.length; i++) {
-        if (radioButtons[i].checked) {
-          if (i === 1) {
-            multiplier = 1.5;
-          } else if (i === 2) {
-            multiplier = 2.5;
-          } else if (i === 3) {
-            multiplier = 4;
-          }
-          break;
-        }
+    // 計算を行う関数
+function calculateResult() {
+  var sliderValue = parseFloat(document.getElementById('rangeSlider').value);
+  
+  var radioButtons = document.getElementsByName('radioButton');
+  var multiplier = 1.0;
+  for (var i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].checked) {
+      if (i === 1) {
+        multiplier = 1.5;
+      } else if (i === 2) {
+        multiplier = 2.5;
+      } else if (i === 3) {
+        multiplier = 4;
       }
+      break;
+    }
+  }
 
-      var monthlyCheckbox = document.getElementById('monthly');
-      var passiveCheckbox = document.getElementById('passive');
-      var memoInput = document.getElementById('memo');
+  var monthlyCheckbox = document.getElementById('monthly');
+  var passiveCheckbox = document.getElementById('passive');
+  var memoInput = document.getElementById('memo');
 
-      var monthlyMultiplier = monthlyCheckbox.checked ? 0.15 : 0;
-      var passiveMultiplier = passiveCheckbox.checked ? 0.3 : 0;
-      var memoMultiplier = parseFloat(memoInput.value) || 0;
+  var monthlyMultiplier = monthlyCheckbox.checked ? 0.15 : 0;
+  var passiveMultiplier = passiveCheckbox.checked ? 0.3 : 0;
+  var memoMultiplier = parseFloat(memoInput.value) || 0;
 
       for (var row = 1; row < data.length; row++) {
         for (var col = 1; col < data[row].length; col++) {
