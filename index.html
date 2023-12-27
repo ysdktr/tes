@@ -447,11 +447,10 @@
           <input type="text" class="textbox" id="memo" inputmode="decimal">
           <label for="memo">％：メンバーノギメモ効果</label>
         </div>
-	<div class="slider-container">
-  	  <label for="rangeSlider">振れ幅 </label>
-  	  <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0">
-  	  <span id="sliderValue">0</span>%
-	</div>
+	<div class="range-slider">
+      <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
+      <span class="range-label" id="rangeLabel">0</span>
+    </div>
       </div>
 <!-- 表示ステージ範囲 -->
       <div class="stage">
@@ -655,6 +654,11 @@
       return data;
     }
 
+    function updateRangeValue() {
+        var rangeValue = document.getElementById("rangeSlider").value;
+        document.getElementById("rangeLabel").innerText = rangeValue;
+    }
+
     function applyMultiplier(data) {
       var radioButtons = document.getElementsByName('radioButton');
       var multiplier = 1.0;
@@ -671,24 +675,21 @@
         }
       }
 
-document.getElementById("rangeSlider").addEventListener("input", function() {
-  var sliderValue = document.getElementById("rangeSlider").value;
-  document.getElementById("sliderValue").textContent = sliderValue;
-});
 
       var monthlyCheckbox = document.getElementById('monthly');
       var passiveCheckbox = document.getElementById('passive');
       var memoInput = document.getElementById('memo');
-      var R = parseFloat(sliderValue);
 
       var monthlyMultiplier = monthlyCheckbox.checked ? 0.15 : 0;
       var passiveMultiplier = passiveCheckbox.checked ? 0.3 : 0;
       var memoMultiplier = parseFloat(memoInput.value) || 0;
+      var rangeSliderValue = parseFloat(document.getElementById("rangeSlider").value) || 0;
+
 
       for (var row = 1; row < data.length; row++) {
         for (var col = 1; col < data[row].length; col++) {
           var value = parseFloat(data[row][col]) || 0;
-          var result = Math.round(value * multiplier * (1 + (R / 100)) * (1 + monthlyMultiplier + passiveMultiplier + (memoMultiplier / 100)));
+          var result = Math.round(value * multiplier * (1 + (rangeSliderValue / 100)) * (1 + monthlyMultiplier + passiveMultiplier + (memoMultiplier / 100)));
           data[row][col] = result.toLocaleString();
         }
       }
