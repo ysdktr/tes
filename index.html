@@ -447,9 +447,10 @@
           <input type="text" class="textbox" id="memo" inputmode="decimal">
           <label for="memo">％：メンバーノギメモ効果</label>
         </div>
-	<div clas="rangeslider-group">
-	  <input type="range" min="0" max="5" step="0.5" value="0" id="range">
-	  <input type="text" id="value" value="0">
+	<div class="slider-group">
+  	  <label for="rangeSlider">振れ幅</label>
+  	  <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateSliderValue(this.value)">
+  	  <span id="sliderValue">0</span> %
 	</div>
       </div>
 <!-- 表示ステージ範囲 -->
@@ -654,6 +655,12 @@
       return data;
     }
 
+    // スライダーの値を表示する関数
+    function updateSliderValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+      calculateResult();
+    }
+	
     function applyMultiplier(data) {
       var radioButtons = document.getElementsByName('radioButton');
       var multiplier = 1.0;
@@ -681,7 +688,7 @@
       for (var row = 1; row < data.length; row++) {
         for (var col = 1; col < data[row].length; col++) {
           var value = parseFloat(data[row][col]) || 0;
-          var result = Math.round(value * multiplier * (1 + monthlyMultiplier + passiveMultiplier + (memoMultiplier / 100)));
+          var result = Math.round(value * multiplier * (1 + (sliderValue / 100)) * (1 + monthlyMultiplier + passiveMultiplier + (memoMultiplier / 100)));
           data[row][col] = result.toLocaleString();
         }
       }
