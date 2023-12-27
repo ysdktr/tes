@@ -174,11 +174,15 @@
 
     .textbox {
       width: 50px;
-      font-size:16px;
+      font-size: 16px;
     }
 
     .range-slider{
-      margin-left: 10px;
+      margin: 16px;
+    }
+
+    .range-text{
+      font-size: 16px;
     }
 
     .result {
@@ -452,9 +456,11 @@
           <label for="memo">％：メンバーノギメモ効果</label>
         </div>
 	<div class="range-slider">
-	  <label for="rangeSlider">振れ幅</label>	
+	  <label for="rangeSlider" class="range-text">上振れ補正</label>	
           <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
-          +<span class="range-label" id="rangeLabel">0</span>[%]
+	  <span class="range-text">+</span>
+          <span class="range-label" id="rangeLabel">0</span>
+	  <span class="range-text">[%]</span>
         </div>
       </div>
 <!-- 表示ステージ範囲 -->
