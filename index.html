@@ -16,29 +16,29 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 </head>
 <body>
-  <!-- DataTable Initialization Script -->
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable({
-            ajax: 'xp1.csv',  // CSVファイルのパス
-            responsive: true,
-        });
-    });
-</script>
+    <!-- Table to Display CSV Data -->
+    <table id="myTable">
+        <!-- Table Header (Optional, DataTables will add it automatically) -->
+        <!-- <thead>
+            <tr>
+                <th>Header 1</th>
+                <th>Header 2</th>
+                <!-- Add more headers if your CSV file has more columns -->
+            </tr>
+        </thead> -->
+        <tbody>
+            <!-- DataTable will populate the table body with CSV data -->
+        </tbody>
+    </table>
 
-<!-- Table to Display CSV Data -->
-<table id="myTable">
-    <!-- Table Header (Optional, DataTables will add it automatically) -->
-    <!-- <thead>
-        <tr>
-            <th>Header 1</th>
-            <th>Header 2</th>
-            <!-- Add more headers if your CSV file has more columns -->
-        </tr>
-    </thead> -->
-    <tbody>
-        <!-- DataTable will populate the table body with CSV data -->
-    </tbody>
-</table>
+    <!-- DataTable Initialization Script -->
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                ajax: 'xp1.csv',  // CSVファイルのパス
+                responsive: true,
+            });
+        });
+    </script>
 </body>
 </html>
