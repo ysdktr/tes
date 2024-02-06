@@ -7,6 +7,12 @@
 </head>
 <body>
   <h1>CSVファイルの内容</h1>
+  <div class="range">
+    <input type="text" class="textbox" id="start" inputmode="decimal">
+    <label for="start">開始行</label>
+    <input type="text" class="textbox" id="end" inputmode="decimal">
+    <label for="end">終了行</label>
+  </div>
   <div class="checkbox-group">
     <input type="checkbox" id="non120">
     <label for="non120">切り替え</label>
@@ -26,6 +32,9 @@
           csvFile = "xp1.csv";
         }
 
+        var startRow = parseInt($("#start").val()) + 1; // 開始行
+        var endRow = parseInt($("#end").val()) + 1; // 終了行
+
         $.ajax({
           url: csvFile,
           dataType: "text",
@@ -33,7 +42,20 @@
             var csvData = $.csv.toArrays(data);
             var table = $("#csv-table");
             table.empty(); // テーブルをクリア
-            for (var i = 0; i < csvData.length; i++) {
+
+            // ヘッダー行の表示
+            var headerRow = "<tr>";
+            for (var j = 0; j < csvData[0].length; j++) {
+              headerRow += "<th>" + csvData[0][j] + "</th>";
+            }
+            headerRow += "</tr>";
+            table.append(headerRow);
+
+            // データ行の表示
+            for (var i = startRow; i <= endRow; i++) {
+              if (i >= csvData.length) {
+                break;
+              }
               var row = "<tr>";
               for (var j = 0; j < csvData[i].length; j++) {
                 row += "<td>" + csvData[i][j] + "</td>";
