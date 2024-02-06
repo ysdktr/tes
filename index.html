@@ -12,31 +12,37 @@
     <label for="non120">切り替え</label>
   </div>
   <table id="csv-table"></table>
+  <button id="btn-csv">CSVファイルを開く</button>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   <script>
     $(document).ready(function() {
       var csvFile = "xp1.csv";
 
-      if ($("#non120").is(":checked")) {
-        csvFile = "xp2.csv";
-      }
-
-      $.ajax({
-        url: csvFile,
-        dataType: "text",
-        success: function(data) {
-          var csvData = $.csv.toArrays(data);
-          var table = $("#csv-table");
-          for (var i = 0; i < csvData.length; i++) {
-            var row = "<tr>";
-            for (var j = 0; j < csvData[i].length; j++) {
-              row += "<td>" + csvData[i][j] + "</td>";
-            }
-            row += "</tr>";
-            table.append(row);
-          }
+      $("#btn-csv").click(function() {
+        if ($("#non120").is(":checked")) {
+          csvFile = "xp2.csv";
+        } else {
+          csvFile = "xp1.csv";
         }
+
+        $.ajax({
+          url: csvFile,
+          dataType: "text",
+          success: function(data) {
+            var csvData = $.csv.toArrays(data);
+            var table = $("#csv-table");
+            table.empty(); // テーブルをクリア
+            for (var i = 0; i < csvData.length; i++) {
+              var row = "<tr>";
+              for (var j = 0; j < csvData[i].length; j++) {
+                row += "<td>" + csvData[i][j] + "</td>";
+              }
+              row += "</tr>";
+              table.append(row);
+            }
+          }
+        });
       });
     });
   </script>
