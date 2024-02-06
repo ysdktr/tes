@@ -7,13 +7,23 @@
 </head>
 <body>
   <h1>CSVファイルの内容</h1>
+  <div class="checkbox-group">
+    <input type="checkbox" id="non120">
+    <label for="non120">切り替え</label>
+  </div>
   <table id="csv-table"></table>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   <script>
     $(document).ready(function() {
+      var csvFile = "xp1.csv";
+
+      if ($("#non120").is(":checked")) {
+        csvFile = "xp2.csv";
+      }
+
       $.ajax({
-        url: "xp1.csv",
+        url: csvFile,
         dataType: "text",
         success: function(data) {
           var csvData = $.csv.toArrays(data);
@@ -33,7 +43,8 @@
   <style>
     table {
       border-collapse: collapse;
-      width: 100%;
+      width: 50%;
+      height: 50%;
     }
     th, td {
       border: 1px solid black;
