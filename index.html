@@ -123,7 +123,7 @@
             var P = getPassiveMultiplier();
             var N = getMemoMultiplier();
             var S = getRangeSliderMultiplier();
-            var multiplier = R * (1 + M + P + N / 100 + S / 100);
+            var multiplier = R * (1 + M + P + (N / 100) + (S / 100));
 
             // 数値に倍率を適用し、小数点以下を切り捨て
             var value = Math.floor(parseFloat(csvData[i][j]) * multiplier);
