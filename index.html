@@ -1,225 +1,179 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSVファイル表示</title>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>CSVファイル表示</title>
 </head>
 <body>
-  <h1>CSVファイルの内容</h1>
-  <div class="event">
-    <p>曜日(イベント)を選択</p>
-    <div class="event-radio">
-      <input type="radio" id="radio1" name="radioButton" value="1">
-      <label for="radio1">水曜・日曜(等倍)</label>
-    </div>
-    <div class="event-radio">
-      <input type="radio" id="radio2" name="radioButton" value="1.5">
-      <label for="radio2">月曜・木曜・金曜(1.5倍)</label>
-    </div>
-    <div class="event-radio">
-      <input type="radio" id="radio3" name="radioButton" value="2.5">
-      <label for="radio3">火曜・土曜(2.5倍)</label>
-    </div>
-    <div class="event-radio">
-      <input type="radio" id="radio4" name="radioButton" value="4">
-      <label for="radio4">4倍イベント</label>
-    </div>
+ <h1>CSVファイルの内容</h1>
+ <div class="event">
+  <p>曜日(イベント)を選択</p>
+  <div class="event-radio">
+   <input type="radio" id="radio1" name="radioButton" value="1">
+   <label for="radio1">水曜・日曜(等倍)</label>
   </div>
+  <div class="event-radio">
+   <input type="radio" id="radio2" name="radioButton" value="1.5">
+   <label for="radio2">月曜・木曜・金曜(1.5倍)</label>
+  </div>
+  <div class="event-radio">
+   <input type="radio" id="radio3" name="radioButton" value="2.5">
+   <label for="radio3">火曜・土曜(2.5倍)</label>
+  </div>
+  <div class="event-radio">
+   <input type="radio" id="radio4" name="radioButton" value="4">
+   <label for="radio4">4倍イベント</label>
+  </div>
+ </div>
 
-  <div class="multi">
-    <p class="subject">倍率指定</p>
-    <div class="multi-check">
-      <input type="checkbox" id="monthly">
-      <label for="monthly">マンスリーパス効果(+15%)</label>
-    </div>
-    <div class="multi-check">
-      <input type="checkbox" id="passive">
-      <label for="passive">[ごめんねFingers crossed]梅澤美波<br>[まあいいか？]秋元真夏 どちらかを所持(+30%)</label>
-    </div>
-    <div class="multi-check">
-      <input type="text" class="textbox" id="memo" inputmode="decimal">
-      <label for="memo">％：メンバーノギメモ効果</label>
-    </div>
-	  <div class="range-slider">
-	    <label for="rangeSlider" class="range-text">上振れ補正</label>	
-      <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
-	    <span class="range-text">+</span>
-      <span class="range-label" id="rangeLabel">0</span>
-	    <span class="range-text">[%]</span>
-    </div>
+ <div class="multi">
+  <p class="subject">倍率指定</p>
+  <div class="multi-check">
+   <input type="checkbox" id="monthly">
+   <label for="monthly">マンスリーパス効果(+15%)</label>
   </div>
-  
-  <div class="range">
-    <input type="text" class="textbox" id="start" inputmode="decimal">
-    <label for="start">開始行</label>
-    <input type="text" class="textbox" id="end" inputmode="decimal">
-    <label for="end">終了行</label>
+  <div class="multi-check">
+   <input type="checkbox" id="passive">
+   <label for="passive">[ごめんねFingers crossed]梅澤美波<br>[まあいいか？]秋元真夏 どちらかを所持(+30%)</label>
   </div>
-  
-  <div class="switch">
-    <input type="checkbox" id="non120">
-    <label for="non120">切り替え</label>
+  <div class="multi-check">
+   <input type="text" class="textbox" id="memo" inputmode="decimal">
+   <label for="memo">％：メンバーノギメモ効果</label>
   </div>
+	 <div class="range-slider">
+	  <label for="rangeSlider" class="range-text">上振れ補正</label>	
+   <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
+	  <span class="range-text">+</span>
+   <span class="range-label" id="rangeLabel">0</span>
+	  <span class="range-text">[%]</span>
+  </div>
+ </div>
   
-  <button id="btn-csv">開く</button>
+ <div class="range">
+  <input type="text" class="textbox" id="start" inputmode="decimal">
+  <label for="start">開始行</label>
+  <input type="text" class="textbox" id="end" inputmode="decimal">
+  <label for="end">終了行</label>
+ </div>
   
-  <table id="csv-table"></table>
+ <div class="switch">
+  <input type="checkbox" id="non120">
+  <label for="non120">切り替え</label>
+ </div>
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
+ <button id="btn-csv">開く</button>
   
-  <script>
-    function updateRangeValue() {
-        var rangeValue = document.getElementById("rangeSlider").value;
-        document.getElementById("rangeLabel").innerText = rangeValue;
-    }
+ <table id="csv-table"></table>
+  
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
+  
+ <script>
+  function updateRangeValue() {
+    var rangeValue = document.getElementById("rangeSlider").value;
+    document.getElementById("rangeLabel").innerText = rangeValue;
+  }
 	  
-   // IndexedDBの初期化
-var db = new Dexie("myDB");
-db.version(1).stores({
-  settings: "key, value"
-});
+  $(document).ready(function() {
+ var csvFile = "xp1.csv";
 
-// 保存ボタンのクリックイベント
-$("#btn-save").click(function() {
-  // 各要素の値を取得
-  var key = "settings";
-  var value = {
-    radioButtonValue: $('input[name="radioButton"]:checked').val(),
-    monthlyChecked: $("#monthly").is(":checked"),
-    passiveChecked: $("#passive").is(":checked"),
-    memoValue: $("#memo").val(),
-    rangeSliderValue: $("#rangeSlider").val()
-  };
+ $("#btn-csv").click(function() {
+  if ($("#non120").is(":checked")) {
+   csvFile = "xp2.csv";
+  } else {
+   csvFile = "xp1.csv";
+  }
 
-  // IndexedDBに保存
-  db.settings.put({
-    key: key,
-    value: value
-  });
-});
+  var startRow = parseInt($("#start").val()); // 開始行
+  var endRow = parseInt($("#end").val()); // 終了行
 
-// 読み込みボタンのクリックイベント
-$("#btn-load").click(function() {
-  // IndexedDBから読み込み
-  var key = "settings";
+  $.ajax({
+   url: csvFile,
+   dataType: "text",
+   success: function(data) {
+    var csvData = $.csv.toArrays(data);
+    var table = $("#csv-table");
+    table.empty(); // テーブルをクリア
 
-  db.settings.get(key).then(function(data) {
-    var radioButtonValue = data.radioButtonValue;
-    var monthlyChecked = data.monthlyChecked;
-    var passiveChecked = data.passiveChecked;
-    var memoValue = data.memoValue;
-    var rangeSliderValue = data.rangeSliderValue;
-
-    // 各要素に値を設定
-    $('input[name="radioButton"][value="' + radioButtonValue + '"]').prop("checked", true);
-    $("#monthly").prop("checked", monthlyChecked);
-    $("#passive").prop("checked", passiveChecked);
-    $("#memo").val(memoValue);
-    $("#rangeSlider").val(rangeSliderValue);
-  });
-});
-
-  // 以下、CSVファイル処理のコード
-  var csvFile = "xp1.csv";
-
-  $("#btn-csv").click(function() {
-    if ($("#non120").is(":checked")) {
-      csvFile = "xp2.csv";
-    } else {
-      csvFile = "xp1.csv";
+    // ヘッダー行の表示
+    var headerRow = "<tr>";
+    for (var j = 0; j < csvData[0].length; j++) {
+     headerRow += "<th>" + csvData[0][j] + "</th>";
     }
+    headerRow += "</tr>";
+    table.append(headerRow);
 
-    var startRow = parseInt($("#start").val()); // 開始行
-    var endRow = parseInt($("#end").val()); // 終了行
-
-    $.ajax({
-      url: csvFile,
-      dataType: "text",
-      success: function(data) {
-        var csvData = $.csv.toArrays(data);
-        var table = $("#csv-table");
-        table.empty(); // テーブルをクリア
-
-        // ヘッダー行の表示
-        var headerRow = "<tr>";
-        for (var j = 0; j < csvData[0].length; j++) {
-          headerRow += "<th>" + csvData[0][j] + "</th>";
-        }
-        headerRow += "</tr>";
-        table.append(headerRow);
-
-        // データ行の表示
-        for (var i = startRow; i <= endRow; i++) {
-          if (i >= csvData.length) {
-            break;
-          }
-          var row = "<tr>";
-          for (var j = 0; j < csvData[i].length; j++) {
-            if (i === 0 || j === 0) {
-              // ヘッダー行またはヘッダー列の場合は倍率を適用しない
-              row += "<td>" + csvData[i][j] + "</td>";
-              continue;
-            }
-
-            // 倍率計算
-            var R = getRadioButtonValue();
-            var M = getMonthlyMultiplier();
-            var P = getPassiveMultiplier();
-            var N = getMemoMultiplier();
-            var S = getRangeSliderMultiplier();
-            var multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
-
-            // 数値に倍率を適用し、小数点以下を切り捨て
-            var value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
-            row += "<td>" + value + "</td>";
-          }
-          row += "</tr>";
-          table.append(row);
-        }
+    // データ行の表示
+    for (var i = startRow; i <= endRow; i++) {
+     if (i >= csvData.length) {
+      break;
+     }
+     var row = "<tr>";
+     for (var j = 0; j < csvData[i].length; j++) {
+      if (i === 0 || j === 0) {
+       // ヘッダー行またはヘッダー列の場合は倍率を適用しない
+       row += "<td>" + csvData[i][j] + "</td>";
+       continue;
       }
-    });
+
+      // 倍率計算
+      var R = getRadioButtonValue();
+      var M = getMonthlyMultiplier();
+      var P = getPassiveMultiplier();
+      var N = getMemoMultiplier();
+      var S = getRangeSliderMultiplier();
+      var multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
+
+      // 数値に倍率を適用し、小数点以下を切り捨て
+      var value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
+      row += "<td>" + value + "</td>";
+     }
+     row += "</tr>";
+     table.append(row);
+    }
+   }
   });
+ });
 
-  // ラジオボタンの値を取得
-  function getRadioButtonValue() {
-    var radioButtons = $('input[name="radioButton"]');
-    var selectedRadioButton = radioButtons.filter(':checked');
-    return parseFloat(selectedRadioButton.val());
-  }
+ // ラジオボタンの値を取得
+ function getRadioButtonValue() {
+  var radioButtons = $('input[name="radioButton"]');
+  var selectedRadioButton = radioButtons.filter(':checked');
+  return parseFloat(selectedRadioButton.val());
+ }
 
-  // マンスリーチェックボックスの値を取得
-  function getMonthlyMultiplier() {
-    return $("#monthly").is(":checked") ? 0.15 : 0;
-  }
+ // マンスリーチェックボックスの値を取得
+ function getMonthlyMultiplier() {
+  return $("#monthly").is(":checked") ? 0.15 : 0;
+ }
 
-  // パッシブチェックボックスの値を取得
-  function getPassiveMultiplier() {
-    return $("#passive").is(":checked") ? 0.3 : 0;
-  }
+ // パッシブチェックボックスの値を取得
+ function getPassiveMultiplier() {
+  return $("#passive").is(":checked") ? 0.3 : 0;
+ }
 
-  // メモテキストボックスの値を取得
-  function getMemoMultiplier() {
-    return parseFloat($("#memo").val()) || 0;
-  }
+ // メモテキストボックスの値を取得
+ function getMemoMultiplier() {
+  return parseFloat($("#memo").val()) || 0;
+ }
 
-  // レンジスライダーの値を取得
-  function getRangeSliderMultiplier() {
-    return parseFloat($("#rangeSlider").val());
-  }
+ // レンジスライダーの値を取得
+ function getRangeSliderMultiplier() {
+  return parseFloat($("#rangeSlider").val());
+ }
 });
-  </script>
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 50%;
-      height: 50%;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 5px;
-    }
-  </style>
+ </script>
+ <style>
+  table {
+   border-collapse: collapse;
+   width: 50%;
+   height: 50%;
+  }
+  th, td {
+   border: 1px solid black;
+   padding: 5px;
+  }
+ </style>
 </body>
 </html>
