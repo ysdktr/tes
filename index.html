@@ -81,14 +81,12 @@
   var monthlyChecked = localStorage.getItem("monthlyChecked") === "true";
   var passiveChecked = localStorage.getItem("passiveChecked") === "true";
   var memoValue = localStorage.getItem("memoValue");
-  var rangeSliderValue = localStorage.getItem("rangeSliderValue");
 
   // 各要素に値を設定
   $('input[name="radioButton"][value="' + radioButtonValue + '"]').prop("checked", true);
   $("#monthly").prop("checked", monthlyChecked);
   $("#passive").prop("checked", passiveChecked);
   $("#memo").val(memoValue);
-  $("#rangeSlider").val(rangeSliderValue);
 
   // 以下、CSVファイル処理のコード
   var csvFile = "xp1.csv";
