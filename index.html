@@ -126,7 +126,7 @@
             var multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
 
             // 数値に倍率を適用し、小数点以下を切り捨て
-            var value = Math.floor(parseFloat(csvData[i][j]) * multiplier);
+            var value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
             row += "<td>" + value + "</td>";
           }
           row += "</tr>";
