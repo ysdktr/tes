@@ -75,18 +75,51 @@
         document.getElementById("rangeLabel").innerText = rangeValue;
     }
 	  
-   $(document).ready(function() {
-  // Local Storageから読み込み
-  var radioButtonValue = localStorage.getItem("radioButtonValue");
-  var monthlyChecked = localStorage.getItem("monthlyChecked") === "true";
-  var passiveChecked = localStorage.getItem("passiveChecked") === "true";
-  var memoValue = localStorage.getItem("memoValue");
+   // IndexedDBの初期化
+var db = new Dexie("myDB");
+db.version(1).stores({
+  settings: "key, value"
+});
 
-  // 各要素に値を設定
-  $('input[name="radioButton"][value="' + radioButtonValue + '"]').prop("checked", true);
-  $("#monthly").prop("checked", monthlyChecked);
-  $("#passive").prop("checked", passiveChecked);
-  $("#memo").val(memoValue);
+// 保存ボタンのクリックイベント
+$("#btn-save").click(function() {
+  // 各要素の値を取得
+  var key = "settings";
+  var value = {
+    radioButtonValue: $('input[name="radioButton"]:checked').val(),
+    monthlyChecked: $("#monthly").is(":checked"),
+    passiveChecked: $("#passive").is(":checked"),
+    memoValue: $("#memo").val(),
+    rangeSliderValue: $("#rangeSlider").val()
+  };
+
+  // IndexedDBに保存
+  db.settings.put({
+    key: key,
+    value: value
+  });
+});
+
+// 読み込みボタンのクリックイベント
+$("#btn-load").click(function() {
+  // IndexedDBから読み込み
+  var key = "settings";
+
+  db.settings.get(key).then(function(data) {
+    var radioButtonValue = data.radioButtonValue;
+    var monthlyChecked = data.monthlyChecked;
+    var passiveChecked = data.passiveChecked;
+    var memoValue = data.memoValue;
+    var rangeSliderValue = data.rangeSliderValue;
+
+    // 各要素に値を設定
+    $('input[name="radioButton"][value="' + radioButtonValue + '"]').prop("checked", true);
+    $("#monthly").prop("checked", monthlyChecked);
+    $("#passive").prop("checked", passiveChecked);
+    $("#memo").val(memoValue);
+    $("#rangeSlider").val(rangeSliderValue);
+  });
+});
 
   // 以下、CSVファイル処理のコード
   var csvFile = "xp1.csv";
