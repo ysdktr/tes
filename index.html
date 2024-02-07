@@ -7,20 +7,68 @@
 </head>
 <body>
   <h1>CSVファイルの内容</h1>
+  <div class="event">
+    <p>曜日(イベント)を選択</p>
+    <div class="event-radio">
+      <input type="radio" id="radio1" name="radioButton" value="0">
+      <label for="radio1">水曜・日曜(等倍)</label>
+    </div>
+    <div class="event-radio">
+      <input type="radio" id="radio2" name="radioButton" value="1">
+      <label for="radio2">月曜・木曜・金曜(1.5倍)</label>
+    </div>
+    <div class="event-radio">
+      <input type="radio" id="radio3" name="radioButton" value="2">
+      <label for="radio3">火曜・土曜(2.5倍)</label>
+    </div>
+    <div class="event-radio">
+      <input type="radio" id="radio4" name="radioButton" value="3">
+      <label for="radio4">4倍イベント</label>
+    </div>
+  </div>
+
+  <div class="multi">
+    <p class="subject">倍率指定</p>
+    <div class="multi-check">
+      <input type="checkbox" id="monthly">
+      <label for="monthly">マンスリーパス効果(+15%)</label>
+    </div>
+    <div class="multi-check">
+      <input type="checkbox" id="passive">
+      <label for="passive">[ごめんねFingers crossed]梅澤美波<br>[まあいいか？]秋元真夏 どちらかを所持(+30%)</label>
+    </div>
+    <div class="multi-check">
+      <input type="text" class="textbox" id="memo" inputmode="decimal">
+      <label for="memo">％：メンバーノギメモ効果</label>
+    </div>
+	  <div class="range-slider">
+	    <label for="rangeSlider" class="range-text">上振れ補正</label>	
+      <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
+	    <span class="range-text">+</span>
+      <span class="range-label" id="rangeLabel">0</span>
+	    <span class="range-text">[%]</span>
+    </div>
+  </div>
+  
   <div class="range">
     <input type="text" class="textbox" id="start" inputmode="decimal">
     <label for="start">開始行</label>
     <input type="text" class="textbox" id="end" inputmode="decimal">
     <label for="end">終了行</label>
   </div>
-  <div class="checkbox-group">
+  
+  <div class="switch">
     <input type="checkbox" id="non120">
     <label for="non120">切り替え</label>
   </div>
+  
   <button id="btn-csv">開く</button>
+  
   <table id="csv-table"></table>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
+  
   <script>
     $(document).ready(function() {
       var csvFile = "xp1.csv";
