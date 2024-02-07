@@ -32,8 +32,8 @@
           csvFile = "xp1.csv";
         }
 
-        var startRow = parseInt($("#start").val()) + 1; // 開始行
-        var endRow = parseInt($("#end").val()) + 1; // 終了行
+        var startRow = parseInt($("#start").val()); // 開始行
+        var endRow = parseInt($("#end").val()); // 終了行
 
         $.ajax({
           url: csvFile,
