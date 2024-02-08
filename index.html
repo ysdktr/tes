@@ -62,7 +62,7 @@
   <label for="non120">切り替え</label>
  </div>
   
- <button id="btn-csv btn-save">開く</button>
+ <button id="btn-csv">開く</button>
   
  <table id="csv-table"></table>
   
@@ -77,7 +77,7 @@
 
   $(document).ready(function() {
   // 保存ボタン押下時の処理
-  $("#btn-save").click(function() {
+  $("#btn-csv").click(function() {
     // ラジオボタンの値を取得
     var radioButtonValue = $('input[name="radioButton"]:checked').val();
     // テキストボックスの値を取得
