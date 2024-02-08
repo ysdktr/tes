@@ -75,32 +75,94 @@
   document.getElementById("rangeLabel").innerText = rangeValue;
  }
 
-// ボタンクリックイベント
-$("#btn-csv").click(function() {
-  // 各入力状態を取得
-  const radioValue = $('input[name="radioButton"]:checked').val();
-  const monthlyChecked = $("#monthly").is(":checked");
-  const passiveChecked = $("#passive").is(":checked");
-  const memoValue = $("#memo").val();
-  const rangeValue = $("#rangeSlider").val();
+$(document).ready(function() {
+  // 保存キー
+  const STORAGE_KEY = "csv_input_state";
 
-  // クッキーに保存
-  setCookie("radioValue", radioValue);
-  setCookie("monthlyChecked", monthlyChecked);
-  setCookie("passiveChecked", passiveChecked);
-  setCookie("memoValue", memoValue);
-  setCookie("rangeValue", rangeValue);
+  // ボタンクリック時の処理
+  $("#btn-csv").click(function() {
+    // 各入力要素の値を取得
+    const radioButtonValue = getRadioButtonValue();
+    const monthlyChecked = $("#monthly").is(":checked");
+    const passiveChecked = $("#passive").is(":checked");
+    const memoValue = parseFloat($("#memo").val()) || 0;
+    const rangeSliderValue = parseFloat($("#rangeSlider").val());
+    const startRow = parseInt($("#start").val());
+    const endRow = parseInt($("#end").val());
+    const non120Checked = $("#non120").is(":checked");
 
-  // 保存完了メッセージ
-  alert("入力状態を保存しました！");
+    // 入力状態をJSON形式に変換
+    const state = {
+      radioButtonValue,
+      monthlyChecked,
+      passiveChecked,
+      memoValue,
+      rangeSliderValue,
+      startRow,
+      endRow,
+      non120Checked,
+    };
+
+    // JSON形式をBase64エンコード
+    const encodedState = btoa(JSON.stringify(state));
+
+    // Cookieに保存
+    setCookie(STORAGE_KEY, encodedState);
+  });
+
+  // ページ読み込み時の処理
+  $(window).on("load", function() {
+    // Cookieから値を取得
+    const encodedState = getCookie(STORAGE_KEY);
+
+    // Cookieが存在しない場合は何もしない
+    if (!encodedState) {
+      return;
+    }
+
+    // Base64デコード
+    const decodedState = JSON.parse(atob(encodedState));
+
+    // 入力要素に値を設定
+    setRadioButtonValue(decodedState.radioButtonValue);
+    $("#monthly").prop("checked", decodedState.monthlyChecked);
+    $("#passive").prop("checked", decodedState.passiveChecked);
+    $("#memo").val(decodedState.memoValue);
+    $("#rangeSlider").val(decodedState.rangeSliderValue);
+    $("#start").val(decodedState.startRow);
+    $("#end").val(decodedState.endRow);
+    $("#non120").prop("checked", decodedState.non120Checked);
+  });
+
+  // ラジオボタンの値を設定
+  function setRadioButtonValue(value) {
+    $(`input[name="radioButton"][value="${value}"]`).prop("checked", true);
+  }
+
+  // Cookieの取得
+  function getCookie(key) {
+    const name = key + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Cookieの設定
+  function setCookie(key, value) {
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 365); // 1年間有効
+    document.cookie = `${key}=${value};expires=${expires.toUTCString()}`;
+  }
 });
-
-// クッキーに値を設定
-function setCookie(name, value) {
-  const expires = new Date();
-  expires.setFullYear(expires.getFullYear() + 1);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()}`;
-}
 
 
 
