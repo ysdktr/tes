@@ -75,126 +75,32 @@
   document.getElementById("rangeLabel").innerText = rangeValue;
  }
 
+// ボタンクリックイベント
+$("#btn-csv").click(function() {
+  // 各入力状態を取得
+  const radioValue = $('input[name="radioButton"]:checked').val();
+  const monthlyChecked = $("#monthly").is(":checked");
+  const passiveChecked = $("#passive").is(":checked");
+  const memoValue = $("#memo").val();
+  const rangeValue = $("#rangeSlider").val();
 
-$(document).ready(function() {
-  // 保存キー
-  const SAVE_KEY = "user-input";
+  // クッキーに保存
+  setCookie("radioValue", radioValue);
+  setCookie("monthlyChecked", monthlyChecked);
+  setCookie("passiveChecked", passiveChecked);
+  setCookie("memoValue", memoValue);
+  setCookie("rangeValue", rangeValue);
 
-  // IndexedDB接続
-  const db = new Dexie("csv-tool");
-  db.version(1).stores({
-    settings: "&key, value",
-  });
-
-  // 保存処理
-  $("#btn-csv").click(function() {
-    const settings = {
-      radioButton: getRadioButtonValue(),
-      monthly: $("#monthly").is(":checked"),
-      passive: $("#passive").is(":checked"),
-      memo: $("#memo").val(),
-      rangeSlider: $("#rangeSlider").val(),
-      start: $("#start").val(),
-      end: $("#end").val(),
-      non120: $("#non120").is(":checked"),
-    };
-
-    db.settings.put(settings, SAVE_KEY).then(() => {
-      console.log("設定を保存しました");
-    });
-  });
-
-  // 読み込み処理
-  db.settings.get(SAVE_KEY).then((settings) => {
-    if (settings) {
-      // 設定を各要素に反映
-      setRadioButtonValue(settings.radioButton);
-      $("#monthly").prop("checked", settings.monthly);
-      $("#passive").prop("checked", settings.passive);
-      $("#memo").val(settings.memo);
-      $("#rangeSlider").val(settings.rangeSlider);
-      $("#start").val(settings.start);
-      $("#end").val(settings.end);
-      $("#non120").prop("checked", settings.non120);
-    }
-  });
-
-  // ラジオボタン
-  function getRadioButtonValue() {
-    var radioButtons = $('input[name="radioButton"]');
-    var selectedRadioButton = radioButtons.filter(':checked');
-    return parseFloat(selectedRadioButton.val());
-  }
-
-  function setRadioButtonValue(value) {
-    var radioButtons = $('input[name="radioButton"]');
-    radioButtons.filter('[value="' + value + '"]').prop('checked', true);
-  }
-
-  // マンスリーチェックボックス
-  function getMonthlyValue() {
-    return $("#monthly").is(":checked");
-  }
-
-  function setMonthlyValue(value) {
-    $("#monthly").prop("checked", value);
-  }
-
-  // パッシブチェックボックス
-  function getPassiveValue() {
-    return $("#passive").is(":checked");
-  }
-
-  function setPassiveValue(value) {
-    $("#passive").prop("checked", value);
-  }
-
-  // メモテキストボックス
-  function getMemoValue() {
-    return $("#memo").val();
-  }
-
-  function setMemoValue(value) {
-    $("#memo").val(value);
-  }
-
-  // レンジスライダー
-  function getRangeSliderValue() {
-    return $("#rangeSlider").val();
-  }
-
-  function setRangeSliderValue(value) {
-    $("#rangeSlider").val(value);
-  }
-
-  // 開始行
-  function getStartValue() {
-    return $("#start").val();
-  }
-
-  function setStartValue(value) {
-    $("#start").val(value);
-  }
-
-  // 終了行
-  function getEndValue() {
-    return $("#end").val();
-  }
-
-  function setEndValue(value) {
-    $("#end").val(value);
-  }
-
-  // 切り替えスイッチ
-  function getNon120Value() {
-    return $("#non120").is(":checked");
-  }
-
-  function setNon120Value(value) {
-    $("#non120").prop("checked", value);
-  }
+  // 保存完了メッセージ
+  alert("入力状態を保存しました！");
 });
 
+// クッキーに値を設定
+function setCookie(name, value) {
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()}`;
+}
 
 
 
