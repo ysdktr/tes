@@ -75,41 +75,39 @@
     document.getElementById("rangeLabel").innerText = rangeValue;
   }
 
-  $(document).ready(function() {
   // 保存ボタン押下時の処理
-  $("#btn-csv").click(function() {
-    // ラジオボタンの値を取得
-    var radioButtonValue = $('input[name="radioButton"]:checked').val();
-    // テキストボックスの値を取得
-    var textboxValue = $("#textbox").val();
-    // チェックボックスの値を取得
-    var checkboxValue = $("#checkbox").is(":checked");
+$("#btn-csv").click(function() {
+  // ラジオボタンの値を取得
+  var radioButtonValue = $('input[name="radioButton"]:checked').val();
+  // テキストボックスの値を取得
+  var textboxValue = $("#textbox").val();
+  // チェックボックスの値を取得
+  var checkboxValue = $("#checkbox").is(":checked");
+  // 倍率計算に必要な情報
+  var monthlyValue = $("#monthly").is(":checked") ? 0.15 : 0;
+  var passiveValue = $("#passive").is(":checked") ? 0.3 : 0;
+  var memoValue = parseFloat($("#memo").val()) || 0;
+  var rangeSliderValue = parseFloat($("#rangeSlider").val());
 
-    // オブジェクトに値をまとめる
-    var data = {
-      radioButton: radioButtonValue,
-      textbox: textboxValue,
-      checkbox: checkboxValue
-    };
+  // オブジェクトに値をまとめる
+  var data = {
+    radioButton: radioButtonValue,
+    textbox: textboxValue,
+    checkbox: checkboxValue,
+    monthly: monthlyValue,
+    passive: passiveValue,
+    memo: memoValue,
+    rangeSlider: rangeSliderValue,
+  };
 
-    // localStorageに保存
-    localStorage.setItem("formData", JSON.stringify(data));
+  // localStorageに保存
+  localStorage.setItem("formData", JSON.stringify(data));
 
-    // 保存完了メッセージを表示
-    alert("保存完了！");
-  });
-
-  // localStorageからデータを取得して復元
-  var storedData = JSON.parse(localStorage.getItem("formData"));
-  if (storedData) {
-    // ラジオボタンに値を設定
-    $('input[name="radioButton"][value="' + storedData.radioButton + '"]').prop("checked", true);
-    // テキストボックスに値を設定
-    $("#textbox").val(storedData.textbox);
-    // チェックボックスに値を設定
-    $("#checkbox").prop("checked", storedData.checkbox);
-  }
+  // 保存完了メッセージを表示
+  alert("保存完了！");
 });
+
+  
 	  
   $(document).ready(function() {
  var csvFile = "xp1.csv";
