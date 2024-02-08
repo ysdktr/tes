@@ -75,7 +75,7 @@
     document.getElementById("rangeLabel").innerText = rangeValue;
   }
 
-  // 保存ボタン押下時の処理
+ // 保存ボタン押下時の処理
 $("#btn-csv").click(function() {
   // ラジオボタンの値を取得
   var radioButtonValue = $('input[name="radioButton"]:checked').val();
@@ -108,6 +108,10 @@ $("#btn-csv").click(function() {
     console.error(error);
     alert("保存に失敗しました。");
   }
+
+  // 保存されたデータを確認
+  var savedData = localStorage.getItem("formData");
+  console.log(savedData);
 });
 
   
