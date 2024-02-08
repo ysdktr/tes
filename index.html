@@ -101,10 +101,13 @@ $("#btn-csv").click(function() {
   };
 
   // localStorageに保存
-  localStorage.setItem("formData", JSON.stringify(data));
-
-  // 保存完了メッセージを表示
-  alert("保存完了！");
+  try {
+    localStorage.setItem("formData", JSON.stringify(data));
+    alert("保存完了！");
+  } catch (error) {
+    console.error(error);
+    alert("保存に失敗しました。");
+  }
 });
 
   
