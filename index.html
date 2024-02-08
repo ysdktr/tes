@@ -74,6 +74,42 @@
     var rangeValue = document.getElementById("rangeSlider").value;
     document.getElementById("rangeLabel").innerText = rangeValue;
   }
+
+  $(document).ready(function() {
+  // 保存ボタン押下時の処理
+  $("#btn-save").click(function() {
+    // ラジオボタンの値を取得
+    var radioButtonValue = $('input[name="radioButton"]:checked').val();
+    // テキストボックスの値を取得
+    var textboxValue = $("#textbox").val();
+    // チェックボックスの値を取得
+    var checkboxValue = $("#checkbox").is(":checked");
+
+    // オブジェクトに値をまとめる
+    var data = {
+      radioButton: radioButtonValue,
+      textbox: textboxValue,
+      checkbox: checkboxValue
+    };
+
+    // localStorageに保存
+    localStorage.setItem("formData", JSON.stringify(data));
+
+    // 保存完了メッセージを表示
+    alert("保存完了！");
+  });
+
+  // localStorageからデータを取得して復元
+  var storedData = JSON.parse(localStorage.getItem("formData"));
+  if (storedData) {
+    // ラジオボタンに値を設定
+    $('input[name="radioButton"][value="' + storedData.radioButton + '"]').prop("checked", true);
+    // テキストボックスに値を設定
+    $("#textbox").val(storedData.textbox);
+    // チェックボックスに値を設定
+    $("#checkbox").prop("checked", storedData.checkbox);
+  }
+});
 	  
   $(document).ready(function() {
  var csvFile = "xp1.csv";
