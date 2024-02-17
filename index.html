@@ -74,118 +74,118 @@
   var rangeValue = document.getElementById("rangeSlider").value;
   document.getElementById("rangeLabel").innerText = rangeValue;
  }
-
 $(document).ready(function() {
-  // localStorageから設定値を読み込み
-  const settings = JSON.parse(localStorage.getItem('user-settings')) || {};
+ // localStorageから設定値を読み込み
+ const settings = JSON.parse(localStorage.getItem('user-settings')) || {};
   
-  // 各要素に設定値を反映
-  $('#radio' + settings.eventMultiplier).prop('checked', true);
-  $('#monthly').prop('checked', settings.monthlyMultiplier);
-  $('#passive').prop('checked', settings.passiveMultiplier);
-  $('#memo').val(settings.memoMultiplier);
-  $('#rangeSlider').val(settings.rangeSliderMultiplier);
+ // 各要素に設定値を反映
+ $('#radio' + settings.eventMultiplier).prop('checked', true);
+ $('#monthly').prop('checked', settings.monthlyMultiplier);
+ $('#passive').prop('checked', settings.passiveMultiplier);
+ $('#memo').val(settings.memoMultiplier);
+ $('#rangeSlider').val(settings.rangeSliderMultiplier);
   
-  // ボタンクリック時の処理
-  $('#btn-csv').click(function() {
-    // 各入力値を取得
-    const eventMultiplier = $('input[name="radioButton"]:checked').val();
-    const monthlyMultiplier = $('#monthly').is(':checked');
-    const passiveMultiplier = $('#passive').is(':checked');
-    const memoMultiplier = $('#memo').val();
-    const rangeSliderMultiplier = <span class="math-inline">\('\#rangeSlider'\)\.val\(\);
+ // ボタンクリック時の処理
+ $('#btn-csv').click(function() {
+  // 各入力値を取得
+  const eventMultiplier = $('input[name="radioButton"]:checked').val();
+  const monthlyMultiplier = $('#monthly').is(':checked');
+  const passiveMultiplier = $('#passive').is(':checked');
+  const memoMultiplier = $('#memo').val();
+  const rangeSliderMultiplier = <span class="math-inline">('#rangeSlider').val();
 // 設定値をlocalStorageに保存
-localStorage\.setItem\('user\-settings', JSON\.stringify\(\{
+localStorage.setItem('user-settings', JSON.stringify({
 eventMultiplier,
 monthlyMultiplier,
 passiveMultiplier,
 memoMultiplier,
 rangeSliderMultiplier,
-\}\)\);
+}));
 // 既存の処理
-if \(</span>("#non120").is(":checked")) {
-      csvFile = "xp2.csv";
-    } else {
-      csvFile = "xp1.csv";
+if (</span>("#non120").is(":checked")) {
+   csvFile = "xp2.csv";
+  } else {
+   csvFile = "xp1.csv";
+  }
+
+  var startRow = parseInt(<span class="math-inline">("#start").val()); // 開始行
+var endRow = parseInt(</span>("#end").val()); // 終了行
+
+  $.ajax({
+   url: csvFile,
+   dataType: "text",
+   success: function(data) {
+    var csvData = $.csv.toArrays(data);
+    var table = $("#csv-table");
+    table.empty(); // テーブルをクリア
+
+    // ヘッダー行の表示
+    var headerRow = "<tr>";
+    for (var j = 0; j < csvData[0].length; j++) {
+     headerRow += "<th>" + csvData[0][j] + "</th>";
     }
+    headerRow += "</tr>";
+    table.append(headerRow);
 
-    var startRow = parseInt(<span class="math-inline">\("\#start"\)\.val\(\)\); // 開始行
-var endRow \= parseInt\(</span>("#end").val()); // 終了行
-
-    $.ajax({
-      url: csvFile,
-      dataType: "text",
-      success: function(data) {
-        var csvData = $.csv.toArrays(data);
-        var table = $("#csv-table");
-        table.empty(); // テーブルをクリア
-
-        // ヘッダー行の表示
-        var headerRow = "<tr>";
-        for (var j = 0; j < csvData[0].length; j++) {
-          headerRow += "<th>" + csvData[0][j] + "</th>";
-        }
-        headerRow += "</tr>";
-        table.append(headerRow);
-
-        // データ行の表示
-        for (var i = startRow; i <= endRow; i++) {
-          if (i >= csvData.length) {
-            break;
-          }
-          var row = "<tr>";
-          for (var j = 0; j < csvData[i].length; j++) {
-            if (i === 0 || j === 0) {
-              // ヘッダー行またはヘッダー列の場合は倍率を適用しない
-              row += "<td>" + csvData[i][j] + "</td>";
-              continue;
-            }
-
-            // 倍率計算
-            var R = getRadioButtonValue();
-            var M = getMonthlyMultiplier();
-            var P = getPassiveMultiplier();
-            var N = getMemoMultiplier();
-            var S = getRangeSliderMultiplier();
-            var multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
-
-            // 数値に倍率を適用し、小数点以下を切り捨て
-            var value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
-            row += "<td>" + value + "</td>";
-          }
-          row += "</tr>";
-          table.append(row);
-        }
+    // データ行の表示
+    for (var i = startRow; i <= endRow; i++) {
+     if (i >= csvData.length) {
+      break;
+     }
+     var row = "<tr>";
+     for (var j = 0; j < csvData[i].length; j++) {
+      if (i === 0 || j === 0) {
+       // ヘッダー行またはヘッダー列の場合は倍率を適用しない
+       row += "<td>" + csvData[i][j] + "</td>";
+       continue;
       }
-    });
+
+      // 倍率計算
+      var R = getRadioButtonValue();
+      var M = getMonthlyMultiplier();
+      var P = getPassiveMultiplier();
+      var N = getMemoMultiplier();
+      var S = getRangeSliderMultiplier();
+      var multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
+
+      // 数値に倍率を適用し、小数点以下を切り捨て
+      var value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
+      row += "<td>" + value + "</td>";
+     }
+     row += "</tr>";
+     table.append(row);
+    }
+   }
   });
+ });
 
-  // ラジオボタンの値を取得
-  function getRadioButtonValue() {
-    var radioButtons = $('input[name="radioButton"]');
-    var selectedRadioButton = radioButtons.filter(':checked');
-    return parseFloat(selectedRadioButton.val());
-  }
+ // ラジオボタンの値を取得
+ function getRadioButtonValue() {
+  var radioButtons = $('input[name="radioButton"]');
+  var selectedRadioButton = radioButtons.filter(':checked');
+  return parseFloat(selectedRadioButton.val());
+ }
 
-  // マンスリーチェックボックスの値を取得
-  function getMonthlyMultiplier() {
-    return $("#monthly").is(":checked") ? 0.15 : 0;
-  }
+ // マンスリーチェックボックスの値を取得
+ function getMonthlyMultiplier() {
+  return $("#monthly").is(":checked") ? 0.15 : 0;
+ }
 
-  // パッシブチェックボックスの値を取得
-  function getPassiveMultiplier() {
-    return <span class="math-inline">\("\#passive"\)\.is\("\:checked"\) ? 0\.3 \: 0;
-\}
+ // パッシブチェックボックスの値を取得
+ function getPassiveMultiplier() {
+  return <span class="math-inline">("#passive").is(":checked") ? 0.3 : 0;
+}
 // メモテキストボックスの値を取得
-function getMemoMultiplier\(\) \{
-return parseFloat\(</span>("#memo").val()) || 0;
-  }
+function getMemoMultiplier() {
+return parseFloat(</span>("#memo").val()) || 0;
+ }
 
-  // レンジスライダーの値を取得
-  function getRangeSliderMultiplier() {
-    return parseFloat($("#rangeSlider").val());
-  }
+ // レンジスライダーの値を取得
+ function getRangeSliderMultiplier() {
+  return parseFloat($("#rangeSlider").val());
+ }
 });
+
  </script>
  <style>
  table {
