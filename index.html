@@ -127,7 +127,7 @@ $(document).ready(function() {
           if (i >= csvData.length) {
             break;
           }
-          const rowElement = showDataRow(csvData, i, startRow, endRow, multiplier);
+          const rowElement = showDataRow(csvData, i, startRow, endRow);
           tableElement.append(rowElement);
         }
       }
