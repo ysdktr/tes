@@ -87,7 +87,7 @@ $(document).ready(function() {
     const eventMultiplierValue = $('input[name="radioButton"]:checked').val();
     const monthlyMultiplierValue = $('#monthly').is(':checked');
     const passiveMultiplierValue = $('#passive').is(':checked');
-const memoMultiplierValue = parseFloat(</span>('#memo').val());
+    const memoMultiplierValue = parseFloat($('#memo').val());
 
     // NaNの場合は0に置き換える
     if (isNaN(memoMultiplierValue)) {
