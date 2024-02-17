@@ -106,7 +106,7 @@ $(document).ready(function() {
     }));
 
     // 既存の処理
-    const csvFile = <span class="math-inline">('#non120').is(':checked') ? 'xp2.csv' : 'xp1.csv';
+    const csvFile = $('#non120').is(':checked') ? 'xp2.csv' : 'xp1.csv';
     const startRow = parseInt($('#start').val()); // 開始行
     const endRow = parseInt($('#end').val()); // 終了行
 
