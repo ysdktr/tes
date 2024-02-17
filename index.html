@@ -71,33 +71,37 @@
   
 <script>
 $(document).ready(function() {
-  // ボタンクリック時の処理
+  // 初期状態ではCSVファイル非表示
+  $("#csv-table").hide();
+
+  // ボタンクリック時にチェックボックス状態を確認
   $("#btn-csv").on("click", function() {
-    // チェックボックスの状態を取得
-    const isNon120Checked = $("#non120").prop("checked");
-    const csvFile = isNon120Checked ? "xp2.csv" : "xp1.csv";
+    var csvFile = "xp1.csv";
+    if ($("#non120").is(":checked")) {
+      csvFile = "xp2.csv";
+    }
 
-    // テキストボックスの値を取得
-    const startRow = parseInt($("#start").val()) + 1;
-    const endRow = parseInt($("#end").val()) + 1;
-
-    // CSVファイルを読み込み、指定された範囲を表示
+    // CSVファイル読み込み
     $.ajax({
       url: csvFile,
       dataType: "text",
       success: function(data) {
-        const csvData = $.csv.toArrays(data, { delimiter: "," });
-        const tableBody = $("#csv-table").find("tbody");
-        tableBody.empty();
+        // CSVデータ処理
+        var csvData = $.csv.toObjects(data);
 
-        // ヘッダー行追加
-        tableBody.append("<tr><th></th>" + csvData[0].join("</th><th>") + "</tr>");
+        // テーブルにデータ表示
+        $("#csv-table").empty();
+        $.each(csvData, function(i, row) {
+          var tr = $("<tr></tr>");
+          $.each(row, function(key, value) {
+            tr.append($("<td>" + value + "</td>"));
+          });
+          $("#csv-table").append(tr);
+        });
 
-        // 指定された範囲のデータを表示
-        for (let i = startRow; i <= endRow; i++) {
-          tableBody.append("<tr><td>" + i + "</td>" + csvData[i].join("</td><td>") + "</tr>");
-        }
-      },
+        // CSVファイル表示
+        $("#csv-table").show();
+      }
     });
   });
 });
