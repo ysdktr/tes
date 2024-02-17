@@ -41,8 +41,8 @@
   <input type="text" class="textbox" id="memo" inputmode="decimal">
   <label for="memo">％：メンバーノギメモ効果</label>
  </div>
-	 <div class="range-slider">
-	 <label for="rangeSlider" class="range-text">上振れ補正</label>	
+ <div class="range-slider">
+  <label for="rangeSlider" class="range-text">上振れ補正</label>	
   <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
 	 <span class="range-text">+</span>
   <span class="range-label" id="rangeLabel">0</span>
@@ -69,163 +69,65 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   
- <script>
+<script>
 $(document).ready(function() {
-  // localStorageから設定値を読み込み
-  const settings = JSON.parse(localStorage.getItem('user-settings')) || {};
-
-  // 各要素に設定値を反映
-  $('#radio' + settings.eventMultiplierValue).prop('checked', true);
-  $('#monthly').prop('checked', settings.monthlyMultiplierValue);
-  $('#passive').prop('checked', settings.passiveMultiplierValue);
-  $('#memo').val(settings.memoMultiplierValue);
-  $('#rangeSlider').val(settings.rangeSliderMultiplierValue);
+  // 初期化
+  $("#csv-table").empty();
 
   // ボタンクリック時の処理
-  $('#btn-csv').click(function() {
-    // 各入力値を取得
-    const eventMultiplierValue = $('input[name="radioButton"]:checked').val();
-    const monthlyMultiplierValue = $('#monthly').is(':checked');
-    const passiveMultiplierValue = $('#passive').is(':checked');
-    const memoMultiplierValue = parseFloat($('#memo').val());
+  $("#btn-csv").click(function() {
+    // ファイル名
+    var filename = $("#non120").is(":checked") ? "xp2.csv" : "xp1.csv";
+    // 開始行
+    var start = parseInt($("#start").val()) + 1;
+    // 終了行
+    var end = parseInt($("#end").val()) + 1;
 
-    // NaNの場合は0に置き換える
-    if (isNaN(memoMultiplierValue)) {
-      memoMultiplierValue = 0;
-    }
-
-    const rangeSliderMultiplierValue = settings.rangeSliderMultiplierValue;
-
-    // 設定値をlocalStorageに保存
-    localStorage.setItem('user-settings', JSON.stringify({
-      eventMultiplierValue,
-      monthlyMultiplierValue,
-      passiveMultiplierValue,
-      memoMultiplierValue,
-      rangeSliderMultiplierValue,
-    }));
-
-    // 既存の処理
-    const csvFile = $('#non120').is(':checked') ? 'xp2.csv' : 'xp1.csv';
-    const startRow = parseInt($('#start').val()); // 開始行
-    const endRow = parseInt($('#end').val()); // 終了行
-
+    // CSVファイル読み込み
     $.ajax({
-      url: csvFile,
-      dataType: 'text',
+      url: filename,
+      dataType: "text",
       success: function(data) {
-        const csvData = $.csv.toArrays(data);
-        const tableElement = $('#csv-table');
-        tableElement.empty(); // テーブルをクリア
+        // CSVデータのパース
+        var csvData = $.csv.toObjects(data);
 
-        // ヘッダー行の表示
-        const headerRowElement = showHeaderRow(csvData);
-        tableElement.append(headerRowElement);
+        // 表示範囲の調整
+        if (start > 1) {
+          csvData = csvData.slice(start - 1);
+        }
+        if (end > 1) {
+          csvData = csvData.slice(0, end - 1);
+        }
 
-        // データ行の表示
-        for (let i = startRow; i <= endRow; i++) {
-          if (i >= csvData.length) {
-            break;
-          }
-          const rowElement = showDataRow(csvData, i, startRow, endRow);
-          tableElement.append(rowElement);
+        // テーブルへの表示
+        $("#csv-table").empty().append(
+          "<tr>" +
+            csvData[0]
+              .map(function(item) {
+                return "<th>" + item + "</th>";
+              })
+              .join("") +
+          "</tr>"
+        );
+        for (var i = 0; i < csvData.length; i++) {
+          $("#csv-table").append(
+            "<tr>" +
+              csvData[i]
+                .map(function(item) {
+                  return "<td>" + item + "</td>";
+                })
+                .join("") +
+            "</tr>"
+          );
         }
       }
     });
   });
-
-  // ラジオボタンの値を取得
-  function getRadioButtonValue() {
-    const radioButtons = $('input[name="radioButton"]');
-    const selectedRadioButton = radioButtons.filter(':checked');
-    const value = selectedRadioButton.val();
-    return value === '' ? 0 : parseFloat(value);
-  }
-
-  // マンスリーチェックボックスの値を取得
-  function getMonthlyMultiplier() {
-    return $('#monthly').is(':checked') ? 0.15 : 0;
-  }
-
-  // パッシブチェックボックスの値を取得
-  function getPassiveMultiplier() {
-    return $('#passive').is(':checked') ? 0.3 : 0;
-}
-// メモテキストボックスの値を取得
-function getMemoMultiplier() {
-return parseFloat($('#memo').val());
-  }
-
-  // レンジスライダーの値を取得
-  function getRangeSliderMultiplier() {
-    return settings.rangeSliderMultiplierValue;
-  }
-
-  // レンジスライダーの値更新
-  $('#rangeSlider').on('input', function() {
-    const value = $(this).val();
-    $('#rangeLabel').text(value);
-  });
-
-  // 初期化処理
-  updateRangeValue();
 });
-
-// ヘッダー行の表示
-function showHeaderRow(csvData) {
-  let headerRowElement = '<tr>';
-  for (let j = 0; j < csvData[0].length; j++) {
-    headerRowElement += '<th>' + csvData[0][j] + '</th>';
-  }
-  headerRowElement += '</tr>';
-  return headerRowElement;
-}
-
-// データ行の表示
-function showDataRow(csvData, i, startRow, endRow) {
-  if (i >= csvData.length) {
-    return;
-  }
-  let rowElement = '<tr>';
-  for (let j = 0; j < csvData[i].length; j++) {
-    if (i === 0 || j === 0) {
-      // ヘッダー行またはヘッダー列の場合は倍率を適用しない
-      rowElement += '<td>' + csvData[i][j] + '</td>';
-      continue;
-    }
-
-    // 倍率計算
-    const R = getRadioButtonValue();
-    const M = getMonthlyMultiplier();
-    const P = getPassiveMultiplier();
-    const N = memoMultiplierValue;
-    const S = getRangeSliderMultiplier();
-    const multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
-
-    // 数値に倍率を適用し、小数点以下を切り捨て
-    const value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
-    rowElement += '<td>' + value + '</td>';
-  }
-  rowElement += '</tr>';
-  return rowElement;
-}
-
-// 初期化処理
-function updateRangeValue() {
-  const rangeValue = document.getElementById('rangeSlider').value;
-  document.getElementById('rangeLabel').innerText = rangeValue;
-}
- </script>
+</script>
+	
  <style>
- table {
-  border-collapse: collapse;
-  width: 50%;
-  height: 50%;
- }
- th, td {
-  border: 1px solid black;
-  padding: 5px;
- }
+	 
  </style>
 </body>
 </html>
