@@ -70,49 +70,43 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   
  <script>
-function updateRangeValue() {
-  const rangeValue = document.getElementById("rangeSlider").value;
-  document.getElementById("rangeLabel").innerText = rangeValue;
-}
-
-	 
- $(document).ready(function() {
+$(document).ready(function() {
   // localStorageから設定値を読み込み
   const settings = JSON.parse(localStorage.getItem('user-settings')) || {};
 
   // 各要素に設定値を反映
-  $('#radio' + settings.eventMultiplier).prop('checked', true);
-  $('#monthly').prop('checked', settings.monthlyMultiplier);
-  $('#passive').prop('checked', settings.passiveMultiplier);
-  $('#memo').val(settings.memoMultiplier);
-  $('#rangeSlider').val(settings.rangeSliderMultiplier);
+  $('#radio' + settings.eventMultiplierValue).prop('checked', true);
+  $('#monthly').prop('checked', settings.monthlyMultiplierValue);
+  $('#passive').prop('checked', settings.passiveMultiplierValue);
+  $('#memo').val(settings.memoMultiplierValue);
+  $('#rangeSlider').val(settings.rangeSliderMultiplierValue);
 
   // ボタンクリック時の処理
   $('#btn-csv').click(function() {
     // 各入力値を取得
-    const eventMultiplier = $('input[name="radioButton"]:checked').val();
-    const monthlyMultiplier = $('#monthly').is(':checked');
-    const passiveMultiplier = <span class="math-inline">('#passive').is(':checked');
-const memoMultiplier = parseFloat(</span>('#memo').val());
+    const eventMultiplierValue = $('input[name="radioButton"]:checked').val();
+    const monthlyMultiplierValue = $('#monthly').is(':checked');
+    const passiveMultiplierValue = <span class="math-inline">('#passive').is(':checked');
+const memoMultiplierValue = parseFloat(</span>('#memo').val());
 
     // NaNの場合は0に置き換える
-    if (isNaN(memoMultiplier)) {
-      memoMultiplier = 0;
+    if (isNaN(memoMultiplierValue)) {
+      memoMultiplierValue = 0;
     }
 
-    const rangeSliderMultiplier = settings.rangeSliderMultiplier;
+    const rangeSliderMultiplierValue = settings.rangeSliderMultiplierValue;
 
     // 設定値をlocalStorageに保存
     localStorage.setItem('user-settings', JSON.stringify({
-      eventMultiplier,
-      monthlyMultiplier,
-      passiveMultiplier,
-      memoMultiplier,
-      rangeSliderMultiplier,
+      eventMultiplierValue,
+      monthlyMultiplierValue,
+      passiveMultiplierValue,
+      memoMultiplierValue,
+      rangeSliderMultiplierValue,
     }));
 
     // 既存の処理
-   const csvFile = $('#non120').is(':checked') ? 'xp2.csv' : 'xp1.csv';
+    const csvFile = <span class="math-inline">('#non120').is(':checked') ? 'xp2.csv' : 'xp1.csv';
 const startRow = parseInt(</span>('#start').val()); // 開始行
     const endRow = parseInt($('#end').val()); // 終了行
 
@@ -121,42 +115,20 @@ const startRow = parseInt(</span>('#start').val()); // 開始行
       dataType: 'text',
       success: function(data) {
         const csvData = $.csv.toArrays(data);
-        const table = $('#csv-table');
-        table.empty(); // テーブルをクリア
+        const tableElement = $('#csv-table');
+        tableElement.empty(); // テーブルをクリア
 
         // ヘッダー行の表示
-        let headerRow = '<tr>';
-        for (let j = 0; j < csvData[0].length; j++) {
-          headerRow += '</tr>';
-        table.append(headerRow);
+        const headerRowElement = showHeaderRow(csvData);
+        tableElement.append(headerRowElement);
 
         // データ行の表示
         for (let i = startRow; i <= endRow; i++) {
           if (i >= csvData.length) {
             break;
           }
-          let row = '<tr>';
-          for (let j = 0; j < csvData[i].length; j++) {
-            if (i === 0 || j === 0) {
-              // ヘッダー行またはヘッダー列の場合は倍率を適用しない
-              row += '<td>' + csvData[i][j] + '</td>';
-              continue;
-            }
-
-            // 倍率計算
-            const R = getRadioButtonValue();
-            const M = getMonthlyMultiplier();
-            const P = getPassiveMultiplier();
-            const N = memoMultiplier;
-            const S = getRangeSliderMultiplier();
-            const multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
-
-            // 数値に倍率を適用し、小数点以下を切り捨て
-            const value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
-            row += '<td>' + value + '</td>';
-          }
-          row += '</tr>';
-          table.append(row);
+          const rowElement = showDataRow(csvData, i, startRow, endRow, multiplier);
+          tableElement.append(rowElement);
         }
       }
     });
@@ -166,7 +138,8 @@ const startRow = parseInt(</span>('#start').val()); // 開始行
   function getRadioButtonValue() {
     const radioButtons = $('input[name="radioButton"]');
     const selectedRadioButton = radioButtons.filter(':checked');
-    return parseFloat(selectedRadioButton.val());
+    const value = selectedRadioButton.val();
+    return value === '' ? 0 : parseFloat(value);
   }
 
   // マンスリーチェックボックスの値を取得
@@ -176,17 +149,16 @@ const startRow = parseInt(</span>('#start').val()); // 開始行
 
   // パッシブチェックボックスの値を取得
   function getPassiveMultiplier() {
-    return $('#passive').is(':checked') ? 0.3 : 0;
-  }
-
-  // メモテキストボックスの値を取得
-  function getMemoMultiplier() {
-    return parseFloat($('#memo').val());
+    return <span class="math-inline">('#passive').is(':checked') ? 0.3 : 0;
+}
+// メモテキストボックスの値を取得
+function getMemoMultiplier() {
+return parseFloat(</span>('#memo').val());
   }
 
   // レンジスライダーの値を取得
   function getRangeSliderMultiplier() {
-    return settings.rangeSliderMultiplier;
+    return settings.rangeSliderMultiplierValue;
   }
 
   // レンジスライダーの値更新
@@ -198,6 +170,51 @@ const startRow = parseInt(</span>('#start').val()); // 開始行
   // 初期化処理
   updateRangeValue();
 });
+
+// ヘッダー行の表示
+function showHeaderRow(csvData) {
+  let headerRowElement = '<tr>';
+  for (let j = 0; j < csvData[0].length; j++) {
+    headerRowElement += '<th>' + csvData[0][j] + '</th>';
+  }
+  headerRowElement += '</tr>';
+  return headerRowElement;
+}
+
+// データ行の表示
+function showDataRow(csvData, i, startRow, endRow, multiplier) {
+  if (i >= csvData.length) {
+    return;
+  }
+  let rowElement = '<tr>';
+  for (let j = 0; j < csvData[i].length; j++) {
+    if (i === 0 || j === 0) {
+      // ヘッダー行またはヘッダー列の場合は倍率を適用しない
+      rowElement += '<td>' + csvData[i][j] + '</td>';
+      continue;
+    }
+
+    // 倍率計算
+    const R = getRadioButtonValue();
+    const M = getMonthlyMultiplier();
+    const P = getPassiveMultiplier();
+    const N = memoMultiplierValue;
+    const S = getRangeSliderMultiplier();
+    const multiplier = R * (1 + M + P + (N / 100)) * (1 + (S / 100));
+
+    // 数値に倍率を適用し、小数点以下を切り捨て
+    const value = Math.floor(parseFloat(csvData[i][j]) * multiplier).toLocaleString('ja-JP');
+    rowElement += '<td>' + value + '</td>';
+  }
+  rowElement += '</tr>';
+  return rowElement;
+}
+
+// 初期化処理
+function updateRangeValue() {
+  const rangeValue = document.getElementById('rangeSlider').value;
+  document.getElementById('rangeLabel').innerText = rangeValue;
+}
  </script>
  <style>
  table {
