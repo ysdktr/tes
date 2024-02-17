@@ -71,56 +71,33 @@
   
 <script>
 $(document).ready(function() {
-  // 初期化
-  $("#csv-table").empty();
-
   // ボタンクリック時の処理
-  $("#btn-csv").click(function() {
-    // ファイル名
-    var filename = $("#non120").is(":checked") ? "xp2.csv" : "xp1.csv";
-    // 開始行
-    var start = parseInt($("#start").val()) + 1;
-    // 終了行
-    var end = parseInt($("#end").val()) + 1;
+  $("#btn-csv").on("click", function() {
+    // チェックボックスの状態を取得
+    const isNon120Checked = $("#non120").prop("checked");
+    const csvFile = isNon120Checked ? "xp2.csv" : "xp1.csv";
 
-    // CSVファイル読み込み
+    // テキストボックスの値を取得
+    const startRow = parseInt($("#start").val()) + 1;
+    const endRow = parseInt($("#end").val()) + 1;
+
+    // CSVファイルを読み込み、指定された範囲を表示
     $.ajax({
-      url: filename,
+      url: csvFile,
       dataType: "text",
       success: function(data) {
-        // CSVデータのパース
-        var csvData = $.csv.toObjects(data);
+        const csvData = $.csv.toArrays(data, { delimiter: "," });
+        const tableBody = $("#csv-table").find("tbody");
+        tableBody.empty();
 
-        // 表示範囲の調整
-        if (start > 1) {
-          csvData = csvData.slice(start - 1);
-        }
-        if (end > 1) {
-          csvData = csvData.slice(0, end - 1);
-        }
+        // ヘッダー行追加
+        tableBody.append("<tr><th></th>" + csvData[0].join("</th><th>") + "</tr>");
 
-        // テーブルへの表示
-        $("#csv-table").empty().append(
-          "<tr>" +
-            csvData[0]
-              .map(function(item) {
-                return "<th>" + item + "</th>";
-              })
-              .join("") +
-          "</tr>"
-        );
-        for (var i = 0; i < csvData.length; i++) {
-          $("#csv-table").append(
-            "<tr>" +
-              csvData[i]
-                .map(function(item) {
-                  return "<td>" + item + "</td>";
-                })
-                .join("") +
-            "</tr>"
-          );
+        // 指定された範囲のデータを表示
+        for (let i = startRow; i <= endRow; i++) {
+          tableBody.append("<tr><td>" + i + "</td>" + csvData[i].join("</td><td>") + "</tr>");
         }
-      }
+      },
     });
   });
 });
