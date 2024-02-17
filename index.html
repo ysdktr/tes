@@ -70,6 +70,12 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   
  <script>
+function updateRangeValue() {
+  const rangeValue = document.getElementById("rangeSlider").value;
+  document.getElementById("rangeLabel").innerText = rangeValue;
+}
+
+	 
  $(document).ready(function() {
   // localStorageから設定値を読み込み
   const settings = JSON.parse(localStorage.getItem('user-settings')) || {};
