@@ -69,43 +69,9 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   
-<script>
-$(document).ready(function() {
-  // 初期状態ではCSVファイル非表示
-  $("#csv-table").hide();
+ <script>
 
-  // ボタンクリック時にチェックボックス状態を確認
-  $("#btn-csv").on("click", function() {
-    var csvFile = "xp1.csv";
-    if ($("#non120").is(":checked")) {
-      csvFile = "xp2.csv";
-    }
-
-    // CSVファイル読み込み
-    $.ajax({
-      url: csvFile,
-      dataType: "text",
-      success: function(data) {
-        // CSVデータ処理
-        var csvData = $.csv.toObjects(data);
-
-        // テーブルにデータ表示
-        $("#csv-table").empty();
-        $.each(csvData, function(i, row) {
-          var tr = $("<tr></tr>");
-          $.each(row, function(key, value) {
-            tr.append($("<td>" + value + "</td>"));
-          });
-          $("#csv-table").append(tr);
-        });
-
-        // CSVファイル表示
-        $("#csv-table").show();
-      }
-    });
-  });
-});
-</script>
+ </script>
 	
  <style>
 	 
