@@ -570,7 +570,7 @@
   checkBox3.addEventListener("change", saveStateToLocalStorage);
 	  
   var checkbox = document.getElementById('non120');
-  var csvFile = checkbox.checked ? 'xp1.csv' : 'xp.csv';
+  var csvFile = checkbox.checked ? 'xp2.csv' : 'xp1.csv';
   var hot = null;
 
   function createGrid() {
@@ -579,7 +579,7 @@
 
   function toggleData() {
     checkbox = document.getElementById('non120');
-    csvFile = checkbox.checked ? 'xp1.csv' : 'xp.csv';
+    csvFile = checkbox.checked ? 'xp2.csv' : 'xp1.csv';
 
     if (hot) {
       hot.destroy();
