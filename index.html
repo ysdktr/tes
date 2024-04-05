@@ -513,7 +513,7 @@
     </ul>
   </div>
 <!-- script -->	
-<script src="https://cdn.jsdelivr.net/npm/handsontable@6.2.2/dist/handsontable.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handsontable@14.2.0/dist/handsontable.full.min.js"></script>
 <script>
   window.onload = function() {
     restoreStateFromLocalStorage();
@@ -570,7 +570,7 @@
   checkBox3.addEventListener("change", saveStateToLocalStorage);
 	  
   var checkbox = document.getElementById('non120');
-  var csvFile = checkbox.checked ? 'xp2.csv' : 'xp1.csv';
+  var csvFile = checkbox.checked ? 'xp1.csv' : 'xp.csv';
   var hot = null;
 
   function createGrid() {
@@ -579,7 +579,7 @@
 
   function toggleData() {
     checkbox = document.getElementById('non120');
-    csvFile = checkbox.checked ? 'xp2.csv' : 'xp1.csv';
+    csvFile = checkbox.checked ? 'xp1.csv' : 'xp.csv';
 
     if (hot) {
       hot.destroy();
@@ -654,9 +654,12 @@
     	        }
   	      },
               manualColumnResize: true,
+	      editable: false,
+              fillHandle: false,
               fixedColumnsLeft: 0,
               fixedRowsTop: 0,
-	      rowHeaderWidth: 72
+	      rowHeaderWidth: 72,
+              readOnly: true
             });
           }
         }
