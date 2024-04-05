@@ -4,6 +4,7 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>CSVファイル表示</title>
+ <!-- DataTables CSS -->
  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
@@ -65,39 +66,33 @@
   
  <button id="btn-csv">開く</button>
   
- <table id="csvTable" style="display:none;" class="display">
-     <thead>
-         <tr></tr>
-     </thead>
-     <tbody>
-     </tbody>
- </table>
-  
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-  
+ <!-- DataTables JS -->
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
  <script>
-  $(document).ready(function() {
-   $('#btn-csv').click(function(){
-    var filename = $('#non120').prop('checked') ? 'xp2.csv' : 'xp1.csv';
-    var start = parseInt($('#start').val());
-    var end = parseInt($('#end').val());
-    $.ajax({
-     type: "GET",
-     url: filename,
-     dataType: "text",
-     success: function(data) {
-      var rows = data.split('\n');
-      var table = $('#csvTable').DataTable({
-       data: rows.slice(start - 1, end),
-       columns: rows[0].split(',').map(function(column) {
-        return { title: column.trim() };
-        })
+   $(document).ready(function() {
+     // DataTable initialization
+     var dataTable = $('#csv-table').DataTable();
+
+     $('#btn-csv').click(function() {
+       // Determine which CSV file to load based on checkbox state
+       var csvFile = $('#non120').prop('checked') ? 'xp2.csv' : 'xp1.csv';
+
+       // Clear existing table data
+       dataTable.clear().draw();
+
+       // Load CSV file
+       $.get(csvFile, function(data) {
+         // Split the CSV data into rows
+         var rows = data.split('\n');
+
+         // Parse and add rows to DataTable
+         rows.forEach(function(row) {
+           var rowData = row.split(',');
+           dataTable.row.add(rowData).draw();
+         });
        });
-      $('#csvTable').show();
-      }
      });
-    });
    });
  </script>
 </body>
