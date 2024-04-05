@@ -44,30 +44,25 @@
  <div class="range-slider">
   <label for="rangeSlider" class="range-text">上振れ補正</label>	
   <input type="range" id="rangeSlider" min="0" max="5" step="0.5" value="0" oninput="updateRangeValue()">
-	 <span class="range-text">+</span>
+  <span class="range-text">+</span>
   <span class="range-label" id="rangeLabel">0</span>
-	 <span class="range-text">[%]</span>
+  <span class="range-text">[%]</span>
  </div>
  </div>
   
  <div class="range">
- <input type="text" class="textbox" id="start" inputmode="decimal">
- <label for="start">開始行</label>
- <input type="text" class="textbox" id="end" inputmode="decimal">
- <label for="end">終了行</label>
+  <input type="text" class="textbox" id="start" inputmode="decimal">
+  <label for="start">開始行</label>
+  <input type="text" class="textbox" id="end" inputmode="decimal">
+  <label for="end">終了行</label>
  </div>
   
  <div class="switch">
  <input type="checkbox" id="non120">
- <label for="non120">切り替え</label>
+ <label for="non120">120以外モード</label>
  </div>
   
  <button id="btn-csv">開く</button>
-  
- <table id="csv-table"></table>
-  
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
   
  <script>
 
