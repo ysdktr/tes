@@ -654,19 +654,10 @@
     	        }
   	      },
               manualColumnResize: true,
-	      editable: false,
-              fillHandle: false,
               fixedColumnsLeft: 0,
               fixedRowsTop: 0,
-	      rowHeaderWidth: 72,
-              readOnly: true
+	      rowHeaderWidth: 72
             });
-
-		// キーボード表示を防止する
-hot.addHook('beforeKeyDown', function (event) {
-    event.stopImmediatePropagation();
-    event.preventDefault();
-});
           }
         }
       };
