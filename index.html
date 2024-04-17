@@ -2,65 +2,18 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DataTable検索</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.8.0/jquery.csv.min.js"></script>
+  <title>CSVファイル検索</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>DataTable検索</h1>
-    <input type="text" id="searchInput" placeholder="検索ワードを入力">
-    <input type="button" id="searchButton" value="検索">
-    <table id="dataTable" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>名前</th>
-          <th>年齢</th>
-          <th>食べ物</th>
-          <th>スポーツ</th>
-        </tr>
-      </thead>
-      <tbody>
-        </tbody>
-    </table>
-  </div>
+  <h1>CSVファイル検索</h1>
+  <form id="searchForm">
+    <label for="keyword">検索キーワード:</label>
+    <input type="text" id="keyword" name="keyword">
+    <button type="submit">検索</button>
+  </form>
+  <div id="searchResult"></div>
 
-  <script>
-    $(document).ready(function() {
-      // CSVファイルを読み込む
-      $.ajax({
-        url: 'data.csv',
-        dataType: 'text',
-        success: function(csvData) {
-          // CSVデータを配列に変換
-          var data = $.csv.toArrays(csvData);
-
-          // DataTableを初期化
-          $('#dataTable').DataTable({
-            data: data,
-            columns: [
-              { title: '名前', data: 0 },
-              { title: '年齢', data: 1 },
-              { title: '食べ物', data: 2 },
-              { title: 'スポーツ', data: 3 },
-            ],
-            language: {
-              searchPlaceholder: '検索ワードを入力',
-            },
-          });
-        }
-      });
-
-      // 検索ボタンのイベントハンドラ
-      $('#searchButton').on('click', function() {
-        var searchTerm = $('#searchInput').val().toLowerCase();
-        $('#dataTable').DataTable().search(searchTerm).draw();
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
