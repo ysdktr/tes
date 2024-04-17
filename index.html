@@ -1,17 +1,64 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
-  <title>タイトル</title>
-  <style>
-    .intro{
-    　  height: 500px;
-    }
-
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataTable検索</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
-  <h1>h1</h1>
-<iframe class="intro" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQK0SKkqS9EJ3ks2wWeD9dwgsb4L1tr9zIdnAhU9xDghbXkMHYLy2p7ptC9QHC3yg/pubhtml?widget=true&amp;headers=false#gid=0&range=A2:B12" style="overflow: hidden;"></iframe>
+  <div class="container">
+    <h1>DataTable検索</h1>
+    <input type="text" id="searchInput" placeholder="検索ワードを入力">
+    <table id="dataTable" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>年齢</th>
+          <th>食べ物</th>
+          <th>スポーツ</th>
+        </tr>
+      </thead>
+      <tbody>
+        </tbody>
+    </table>
+  </div>
 
+  <script>
+    $(document).ready(function() {
+      // CSVファイルを読み込む
+      $.ajax({
+        url: 'data.csv',
+        dataType: 'text',
+        success: function(csvData) {
+          // CSVデータを配列に変換
+          var data = $.csv.toArrays(csvData);
+
+          // DataTableを初期化
+          $('#dataTable').DataTable({
+            data: data,
+            columns: [
+              { title: '名前', data: 0 },
+              { title: '年齢', data: 1 },
+              { title: '食べ物', data: 2 },
+              { title: 'スポーツ', data: 3 },
+            ],
+            language: {
+              searchPlaceholder: '検索ワードを入力',
+            },
+          });
+        }
+      });
+
+      // 検索フォームに入力された値を取得して、DataTableをフィルタリング
+      $('#searchInput').on('keyup', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#dataTable').DataTable().search(searchTerm).draw();
+      });
+    });
+  </script>
 </body>
 </html>
