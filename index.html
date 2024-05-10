@@ -5,27 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Googleスプレッドシート</title>
   <style>
-    /* スマートフォン */
-@media (max-width: 599px) {
-  iframe {
-    transform-origin: 0 0;
-    width: 90%;
-    height: 90vh;
-  }
+    iframe {
+  width: 100%;
+  height: 100%;
+  position: relative; /* 重要！ */
 }
 
-/* タブレット */
-@media (min-width: 600px) and (max-width: 959px) {
-  iframe {
-    
-  }
+#spreadsheet-container {
+  overflow: hidden; /* 重要！ */
+  padding-bottom: 56.25%; /* 重要！ */
 }
 
-/* デスクトップ */
-@media (min-width: 960px) {
-  iframe {
-   
-  }
+#spreadsheet-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
   </style>
 </head>
