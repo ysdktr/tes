@@ -2,38 +2,21 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>D3.js データ可視化</title>
-  <script src="https://d3js.org/"></script>
+  <title>D3.jsによるCSVデータ可視化</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    .chart {
+      width: 800px;
+      height: 400px;
+    }
+  </style>
 </head>
 <body>
-  <script>
-    // データ読み込み
-    d3.csv("data.csv", function(data) {
-      // 数値データ抽出
-      var values = data.map(function(d) { return +d["列名"]; });
-
-      // カラー スケール定義
-      var colorScale = d3.scaleLinear()
-        .domain([d3.min(values), d3.mean(values), d3.max(values)])
-        .range(["red", "yellow", "green"]);
-
-      // SVG 要素作成
-      var svg = d3.select("body")
-        .append("svg")
-          .attr("width", 800)
-          .attr("height", 400);
-
-      // データ可視化
-      svg.selectAll("rect")
-        .data(values.slice(1, 26)) // 2行目から26行目
-        .enter()
-        .append("rect")
-          .attr("x", function(d, i) { return i * 30; })
-          .attr("y", 50)
-          .attr("width", 25)
-          .attr("height", 40)
-          .style("fill", function(d) { return colorScale(d); });
-    });
-  </script>
+  <h1>D3.jsによるCSVデータ可視化</h1>
+  <div class="chart"></div>
+  <script src="script.js"></script>
 </body>
 </html>
