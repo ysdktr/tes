@@ -2,73 +2,37 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>data.csv カラースケール表示</title>
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    th {
-      text-align: left;
-      background-color: #f0f0f0;
-    }
-  </style>
+  <title>D3.js データ可視化</title>
+  <script src="https://d3js.org/"></script>
 </head>
 <body>
-  <h1>data.csv</h1>
-
-  <table id="data-table"></table>
-
-  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
-    // data.csvの読み込み
-    d3.csv('data.csv', function(error, data) {
-      if (error) console.error(error);
+    // データ読み込み
+    d3.csv("data.csv", function(data) {
+      // 数値データ抽出
+      var values = data.map(function(d) { return +d["列名"]; });
 
-      // データ整形
-      const numericData = data.map(row => parseFloat(row[1]));
-      const min = d3.min(numericData);
-      const max = d3.max(numericData);
-      const mid = (min + max) / 2;
+      // カラー スケール定義
+      var colorScale = d3.scaleLinear()
+        .domain([d3.min(values), d3.mean(values), d3.max(values)])
+        .range(["red", "yellow", "green"]);
 
-      // カラースケール生成
-      const colorScale = d3.scaleLinear()
-        .domain([min, mid, max])
-        .range(['red', 'yellow', 'green']);
+      // SVG 要素作成
+      var svg = d3.select("body")
+        .append("svg")
+          .attr("width", 800)
+          .attr("height", 400);
 
-      // 表の作成
-      const table = d3.select('#data-table');
-      const thead = table.append('thead');
-      const tbody = table.append('tbody');
-
-      // ヘッダー行の生成
-      thead.append('tr')
-        .selectAll('th')
-        .data(data[0])
+      // データ可視化
+      svg.selectAll("rect")
+        .data(values.slice(1, 26)) // 2行目から26行目
         .enter()
-        .append('th')
-        .text(function(d) { return d; });
-
-      // 行データの生成
-      const rows = tbody.selectAll('tr')
-        .data(data.slice(1))
-        .enter()
-        .append('tr');
-
-      rows.selectAll('td')
-        .data(function(d) { return d; })
-        .enter()
-        .append('td')
-        .text(function(d) { return d; })
-        .style('background-color', function(d) {
-          const value = parseFloat(d);
-          return colorScale(value);
-        });
+        .append("rect")
+          .attr("x", function(d, i) { return i * 30; })
+          .attr("y", 50)
+          .attr("width", 25)
+          .attr("height", 40)
+          .style("fill", function(d) { return colorScale(d); });
     });
   </script>
 </body>
