@@ -1,12 +1,40 @@
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>CSVデータ表示</title>
+  <title>data.csv</title>
 </head>
 <body>
-  <h1>CSVデータ</h1>
-  <table id="data-table"></table>
+  <table>
+    <thead>
+      <tr>
+        </tr>
+    </thead>
+    <tbody>
+      </tbody>
+  </table>
 
-  <script src="script.js"></script>
+  <script>
+    // data.csvを読み込む
+    const csvData = [];
+    d3.csv("data.csv", function(data) {
+      csvData = data;
+
+      // ヘッダー行を生成
+      const headerRow = d3.select("thead tr");
+      for (const key in csvData[0]) {
+        headerRow.append("th").text(key);
+      }
+
+      // データ行を生成
+      const tbody = d3.select("tbody");
+      for (const row of csvData) {
+        const dataRow = tbody.append("tr");
+        for (const key in row) {
+          dataRow.append("td").text(row[key]);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
