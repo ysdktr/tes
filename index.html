@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>data.csv表示ページ</title>
+  <title>data.csv カラースケール表示</title>
   <style>
-    /* テーブルのスタイル */
     table {
       border-collapse: collapse;
       width: 100%;
@@ -23,48 +22,54 @@
 <body>
   <h1>data.csv</h1>
 
-  <table>
-    <thead>
-      <tr>
-        </tr>
-    </thead>
-    <tbody>
-      </tbody>
-  </table>
+  <table id="data-table"></table>
 
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
-    // data.csvを読み込む
-    const csvData = [];
-    fetch('data.csv')
-      .then(response => response.text())
-      .then(text => {
-        const lines = text.split('\n');
-        for (const line of lines) {
-          const values = line.split(',');
-          csvData.push(values);
-        }
+    // data.csvの読み込み
+    d3.csv('data.csv', function(error, data) {
+      if (error) console.error(error);
 
-        // ヘッダー行の書き込み
-        const headerRow = csvData.shift();
-        const header = document.querySelector('thead tr');
-        for (const value of headerRow) {
-          const th = document.createElement('th');
-          th.textContent = value;
-          header.appendChild(th);
-        }
+      // データ整形
+      const numericData = data.map(row => parseFloat(row[1]));
+      const min = d3.min(numericData);
+      const max = d3.max(numericData);
+      const mid = (min + max) / 2;
 
-        // 行データの書き込み
-        const tbody = document.querySelector('tbody');
-        for (const row of csvData) {
-          const tr = document.createElement('tr');
-          for (const value of row) {
-            const td = document.createElement('td');
-            td.textContent = value;
-            tr.appendChild(td);
-          }
-          tbody.appendChild(tr);
-        }
-      });
+      // カラースケール生成
+      const colorScale = d3.scaleLinear()
+        .domain([min, mid, max])
+        .range(['red', 'yellow', 'green']);
+
+      // 表の作成
+      const table = d3.select('#data-table');
+      const thead = table.append('thead');
+      const tbody = table.append('tbody');
+
+      // ヘッダー行の生成
+      thead.append('tr')
+        .selectAll('th')
+        .data(data[0])
+        .enter()
+        .append('th')
+        .text(function(d) { return d; });
+
+      // 行データの生成
+      const rows = tbody.selectAll('tr')
+        .data(data.slice(1))
+        .enter()
+        .append('tr');
+
+      rows.selectAll('td')
+        .data(function(d) { return d; })
+        .enter()
+        .append('td')
+        .text(function(d) { return d; })
+        .style('background-color', function(d) {
+          const value = parseFloat(d);
+          return colorScale(value);
+        });
+    });
   </script>
 </body>
 </html>
