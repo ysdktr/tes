@@ -2,9 +2,27 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>data.csv</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>data.csv表示ページ</title>
+  <style>
+    /* テーブルのスタイル */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    th {
+      text-align: left;
+      background-color: #f0f0f0;
+    }
+  </style>
 </head>
 <body>
+  <h1>data.csv</h1>
+
   <table>
     <thead>
       <tr>
@@ -17,24 +35,36 @@
   <script>
     // data.csvを読み込む
     const csvData = [];
-    d3.csv("data.csv", function(data) {
-      csvData = data;
-
-      // ヘッダー行を生成
-      const headerRow = d3.select("thead tr");
-      for (const key in csvData[0]) {
-        headerRow.append("th").text(key);
-      }
-
-      // データ行を生成
-      const tbody = d3.select("tbody");
-      for (const row of csvData) {
-        const dataRow = tbody.append("tr");
-        for (const key in row) {
-          dataRow.append("td").text(row[key]);
+    fetch('data.csv')
+      .then(response => response.text())
+      .then(text => {
+        const lines = text.split('\n');
+        for (const line of lines) {
+          const values = line.split(',');
+          csvData.push(values);
         }
-      }
-    });
+
+        // ヘッダー行の書き込み
+        const headerRow = csvData.shift();
+        const header = document.querySelector('thead tr');
+        for (const value of headerRow) {
+          const th = document.createElement('th');
+          th.textContent = value;
+          header.appendChild(th);
+        }
+
+        // 行データの書き込み
+        const tbody = document.querySelector('tbody');
+        for (const row of csvData) {
+          const tr = document.createElement('tr');
+          for (const value of row) {
+            const td = document.createElement('td');
+            td.textContent = value;
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+        }
+      });
   </script>
 </body>
 </html>
