@@ -1,72 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>D3.js カラースケール</title>
-  <script src="https://d3js.org/"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-    }
-    #chart {
-      width: 800px;
-      height: 400px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>D3.jsでCSVファイルを出力するWebページ</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <h1>D3.js カラースケール</h1>
-  <div id="chart"></div>
+    <div id="chart"></div>
 
-  <script>
-    // データ読み込み
-    d3.csv("data.csv", function(data) {
-      // ヘッダーを除外
-      data = data.slice(1);
-
-      // 数値以外のデータは白にする
-      data.forEach(function(row) {
-        for (var i = 1; i < row.length; i++) {
-          if (isNaN(row[i])) {
-            row[i] = "white";
-          }
-        }
-      });
-
-      // カラーレンジ設定
-      var colorRange = ["green", "yellow", "red"];
-
-      // カラースケール作成
-      var colorScale = d3.scaleLinear()
-        .domain([d3.min(data, function(d) { return d[1]; }), d3.max(data, function(d) { return d[1]; })])
-        .range(colorRange);
-
-      // SVG要素作成
-      var svg = d3.select("#chart")
-        .append("svg")
-        .attr("width", 800)
-        .attr("height", 400);
-
-      // データ描画
-      svg.selectAll("rect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", function(d, i) { return i * 30; })
-        .attr("y", 0)
-        .attr("width", 30)
-        .attr("height", 400)
-        .attr("fill", function(d) { return colorScale(d[1]); });
-
-      // 軸描画
-      var xAxis = d3.scaleLinear()
-        .domain([0, data.length - 1])
-        .range([0, 800]);
-
-      svg.append("g")
-        .attr("transform", "translate(" + 0 + "," + 400 + ")")
-        .call(d3.axisBottom(xAxis));
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
