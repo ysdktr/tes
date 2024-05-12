@@ -47,7 +47,7 @@
     // データ行の生成
     var tbody = d3.select("#data-table tbody");
     var rows = tbody.selectAll("tr")
-      .data(data.slice(0, 27)) // 最初の27行のみを選択
+      .data(data)
       .enter()
       .append("tr");
     
