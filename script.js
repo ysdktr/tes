@@ -17,11 +17,11 @@ const svg = d3.select("#visualization")
 d3.csv(csvFilePath).then(data => {
     // データの最小値と最大値を取得
     const minValue = d3.min(data.slice(1, 26), d => {
-        const value = parseFloat(d3.values(d)[0]);
+        const value = parseFloat(Object.values(d)[0]); // d3.values() を Object.values() に変更
         return isNaN(value) ? Infinity : value; // 数値でない場合はInfinityを返す
     });
     const maxValue = d3.max(data.slice(1, 26), d => {
-        const value = parseFloat(d3.values(d)[0]);
+        const value = parseFloat(Object.values(d)[0]); // d3.values() を Object.values() に変更
         return isNaN(value) ? -Infinity : value; // 数値でない場合は-Infinityを返す
     });
     
@@ -38,7 +38,7 @@ d3.csv(csvFilePath).then(data => {
         .attr("width", width)
         .attr("height", height / 25)
         .attr("fill", d => {
-            const value = parseFloat(d3.values(d)[0]);
+            const value = parseFloat(Object.values(d)[0]); // d3.values() を Object.values() に変更
             return isNaN(value) ? "white" : colorScale(value); // 数値でない場合は白を返す
         });
 });
