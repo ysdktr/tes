@@ -33,11 +33,6 @@
   // CSVファイルのパス
   var csvFile = "data.csv";
 
-  // カラースケールの定義
-  var colorScale = d3.scaleSequential()
-                     .domain([0, 1])  // スケールのドメインを設定
-                     .interpolator(d3.interpolateRgb("red", "yellow", "green"));  // 色の範囲を設定
-
   // CSVファイルの読み込み
   d3.csv(csvFile).then(function(data) {
     // ヘッダ行の生成
@@ -53,6 +48,11 @@
     var allValues = data.map(function(d) { return parseFloat(d.value); });
     var minValue = d3.min(allValues);
     var maxValue = d3.max(allValues);
+
+    // カラースケールの定義
+    var colorScale = d3.scaleSequential()
+                       .domain([minValue, maxValue])
+                       .interpolator(d3.interpolateRgb("red", "yellow", "green")); 
 
     // データ行の生成
     var tbody = d3.select("#data-table tbody");
@@ -77,9 +77,7 @@
           return "white";
         } else {
           // 数値の場合はカラースケールを適用
-          var value = parseFloat(d.value);
-          var normalizedValue = (value - minValue) / (maxValue - minValue);  // スケール化
-          return colorScale(normalizedValue);
+          return colorScale(parseFloat(d.value));
         }
       });
   }).catch(function(error) {
