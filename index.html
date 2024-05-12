@@ -60,6 +60,24 @@
       })
       .enter()
       .append("td")
+      .style("background-color", function(d) {
+        // 数値の場合、カラーコードを計算して返す
+        var value = parseFloat(d.value);
+        if (!isNaN(value)) {
+          // 最小値、最大値、中間値の設定
+          var min = 2; // 最小値
+          var max = 26; // 最大値
+          var mid = (min + max) / 2; // 中間値
+          // 色の設定
+          if (value <= min) return "red"; // 最小値以下は赤
+          else if (value >= max) return "green"; // 最大値以上は緑
+          else if (value <= mid) return "yellow"; // 中間値以下は黄色
+          else return "white"; // それ以外は白
+        } else {
+          // 数値でない場合は白
+          return "white";
+        }
+      })
       .text(function(d) { return d.value; });
   }).catch(function(error) {
     // エラーハンドリング
