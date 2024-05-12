@@ -1,47 +1,61 @@
-// データの読み込み
-d3.csv("data.csv", function(data) {
-  // ヘッダーを除いたデータを取得
-  data = data.slice(1);
+const dataUrl = "data.csv";
+const chart = d3.select("#chart");
 
-  // 各行のデータを変換
-  data.forEach(function(row) {
-    for (var i in row) {
-      if (!isNaN(row[i])) {
-        row[i] = parseFloat(row[i]);
-      } else {
-        row[i] = null; // 数値以外をnullに変換
-      }
-    }
+d3.csv(dataUrl, (data) => {
+  // ヘッダーを除いたデータ抽出
+  const formattedData = data.slice(1).map((row) => {
+    return row.slice(1);
   });
 
-  // カラースケールの設定
-  var minVal = d3.min(data, function(d) { return d[1]; });
-  var maxVal = d3.max(data, function(d) { return d[1]; });
+  // 数値データと文字列データに分ける
+  const numericData = formattedData.map((row) => row.map(Number));
+  const stringData = formattedData.map((row) => row.map(String));
 
-  var colorRange = ["#ffffcc", "#b22222"]; // 白から赤へのグラデーション
+  // カラーマップ作成
+  const colorScale = d3.scaleLinear()
+    .domain([d3.min(numericData, (d) => d3.min(d)), d3.max(numericData, (d) => d3.max(d))])
+    .range(["green", "yellow", "red"]);
 
-  var colorScale = d3.scaleLinear()
-    .domain([minVal, maxVal])
-    .range(colorRange);
+  // SVG要素作成
+  const svg = chart.append("svg")
+    .attr("width", 800)
+    .attr("height", 400);
 
-  // SVG要素への描画
-  var width = 500; // グラフの幅
-  var height = 300; // グラフの高さ
-  var cellWidth = width / data.length; // セルの幅
-  var cellHeight = height / (maxVal - minVal); // セルの高さ
-
-  var svg = d3.select("#chart")
-    .append("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-  svg.selectAll("rect")
-    .data(data)
+  // セル作成
+  const cells = svg.selectAll("rect")
+    .data(numericData)
     .enter()
     .append("rect")
-      .attr("x", function(d, i) { return i * cellWidth; })
-      .attr("y", function(d) { return height - d[1] * cellHeight; })
-      .attr("width", cellWidth)
-      .attr("height", function(d) { return d[1] * cellHeight; })
-      .style("fill", function(d) { return d[1] != null ? colorScale(d[1]) : "#ffffff"; });
-});
+    .attr("x", (d, i) => i * 30)
+    .attr("y", (d, i) => i * 30)
+    .attr("width", 30)
+    .attr("height", 30)
+    .style("fill", (d) => {
+      const value = d3.min(d);
+      return isNaN(value) ? "white" : colorScale(value);
+    });
+
+  // 軸作成
+  const xAxis = d3.scaleLinear()
+    .domain([0, numericData.length - 1])
+    .range([0, 800]);
+
+  const yAxis = d3.scaleLinear()
+    .domain([0, numericData[0].length - 1])
+    .range([0, 400]);
+
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0, 400)")
+    .call(d3.axisBottom(xAxis));
+
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(800, 0)")
+    .call(d3.axisRight(yAxis));
+
+  // ラベル表示
+  cells.append("text")
+    .attr("x", (d, i) => i * 30 + 15)
+    .attr("y", (d, i) => i * 30 + 15)
+    .text((d, i) => stringData[i][0])
