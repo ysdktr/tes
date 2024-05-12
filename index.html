@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>D3.js カラー スケール付き CSV データ可視化</title>
-  <style>
-    body {
-      font-family: sans-serif;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js Visualization</title>
+    <!-- D3.jsを読み込み -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* スタイルの指定 */
+        rect {
+            stroke: white; /* 矩形の境界線の色 */
+        }
+    </style>
 </head>
 <body>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="script.js"></script>
+    <!-- ビジュアライゼーションを表示するための要素 -->
+    <svg id="visualization"></svg>
+
+    <!-- スクリプトを読み込み -->
+    <script src="script.js"></script>
 </body>
 </html>
