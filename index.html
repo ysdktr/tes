@@ -64,7 +64,7 @@
       .style("background-color", function(d) {
         // 数値でない場合は白に設定
         if (isNaN(parseFloat(d.value))) {
-          return "gray";
+          return "white";
         } else {
           // 数値の場合はカラースケールを適用
           var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
@@ -72,7 +72,7 @@
           var maxValue = d3.max(allValues);
           var colorScale = d3.scaleSequential()
                              .domain([minValue, maxValue])
-                             .interpolator(d3.interpolateHcl("red", "white"));
+                             .interpolator(d3.interpolateHcl("red", "green"));
           return colorScale(parseFloat(d.value));
         }
       });
