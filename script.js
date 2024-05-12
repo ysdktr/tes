@@ -1,30 +1,44 @@
-// データ読み込み
-d3.csv("data.csv", function(data) {
+// CSVファイルのパス
+const csvFilePath = "data.csv";
 
-  // 対象データ抽出
-  var targetData = data.map(function(row) {
-    return row[1]; // 2列目の値を取得
-  }).slice(1, 26); // 2行目から26行目までの値
+// SVGの幅と高さ
+const width = 800;
+const height = 400;
 
-  // カラー スケール定義
-  var colorScale = d3.scaleLinear()
-    .domain([d3.min(targetData), d3.mean(targetData), d3.max(targetData)])
-    .range(["red", "yellow", "green"]);
+// カラースケール
+const colorScale = d3.scaleSequential(d3.interpolateBlues);
 
-  // SVG要素作成
-  var svg = d3.select("body")
-    .append("svg")
-      .attr("width", 800)
-      .attr("height", 400);
+// SVG要素の選択とサイズの設定
+const svg = d3.select("#visualization")
+    .attr("width", width)
+    .attr("height", height);
 
-  // データ可視化
-  svg.selectAll("rect")
-    .data(targetData)
-    .enter()
-    .append("rect")
-      .attr("x", function(d, i) { return i * 30; })
-      .attr("y", 50)
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("fill", function(d) { return colorScale(d); });
+// CSVファイルの読み込みとデータの処理
+d3.csv(csvFilePath).then(data => {
+    // データの最小値と最大値を取得
+    const minValue = d3.min(data.slice(1, 26), d => {
+        const value = parseFloat(d3.values(d)[0]);
+        return isNaN(value) ? Infinity : value; // 数値でない場合はInfinityを返す
+    });
+    const maxValue = d3.max(data.slice(1, 26), d => {
+        const value = parseFloat(d3.values(d)[0]);
+        return isNaN(value) ? -Infinity : value; // 数値でない場合は-Infinityを返す
+    });
+    
+    // カラースケールのドメインを設定
+    colorScale.domain([minValue, maxValue]);
+
+    // データを元にビジュアライゼーションを作成
+    svg.selectAll("rect")
+        .data(data.slice(1, 26))
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", (d, i) => i * (height / 25))
+        .attr("width", width)
+        .attr("height", height / 25)
+        .attr("fill", d => {
+            const value = parseFloat(d3.values(d)[0]);
+            return isNaN(value) ? "white" : colorScale(value); // 数値でない場合は白を返す
+        });
 });
