@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>CSVデータの可視化</title>
+  <title>CSVデータの可視化（カラースケール付き）</title>
   <!-- D3.jsのCDNを読み込む -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
@@ -33,6 +33,11 @@
   // CSVファイルのパス
   var csvFile = "data.csv";
 
+  // カラースケールの定義
+  var colorScale = d3.scaleSequential()
+                     .domain([0, 1])  // スケールのドメインを設定
+                     .interpolator(d3.interpolateRgb("red", "yellow", "green"));  // 色の範囲を設定
+
   // CSVファイルの読み込み
   d3.csv(csvFile).then(function(data) {
     // ヘッダ行の生成
@@ -61,29 +66,15 @@
       .enter()
       .append("td")
       .text(function(d) { return d.value; })
-      .style("background-color", function(d) {
-        // 数値の場合のみカラースケールを適用する
-        var numericValue = parseFloat(d.value);
-        if (!isNaN(numericValue)) {
-          // 最小値、中間値、最大値の定義
-          var minValue = 0;
-          var maxValue = 100;
-          var midValue = (maxValue + minValue) / 2;
-          
-          // カラースケールの定義
-          var red = d3.color("red");
-          var yellow = d3.color("yellow");
-          var green = d3.color("green");
-          
-          // 値に基づいて適切な色を返す
-          if (numericValue <= midValue) {
-            return red.interpolate(yellow)(numericValue / midValue);
-          } else {
-            return yellow.interpolate(green)((numericValue - midValue) / (maxValue - midValue));
-          }
-        } else {
-          // 数値でない場合は白を返す
+      .style("background-color", function(d, i) {
+        // 数値でない場合は白に設定
+        if (isNaN(parseFloat(d.value))) {
           return "white";
+        } else {
+          // 数値の場合はカラースケールを適用
+          var value = parseFloat(d.value);
+          var normalizedValue = (value - minValue) / (maxValue - minValue);  // スケール化
+          return colorScale(normalizedValue);
         }
       });
   }).catch(function(error) {
