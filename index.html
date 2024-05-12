@@ -67,7 +67,7 @@
           return "white";
         } else {
           // 数値の場合はカラースケールを適用
-          var allValues = data.map(function(d) { return parseFloat(d.value); });
+          var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
           var minValue = d3.min(allValues);
           var maxValue = d3.max(allValues);
           var colorScale = d3.scaleSequential()
