@@ -60,25 +60,32 @@
       })
       .enter()
       .append("td")
+      .text(function(d) { return d.value; })
       .style("background-color", function(d) {
-        // 数値の場合、カラーコードを計算して返す
-        var value = parseFloat(d.value);
-        if (!isNaN(value)) {
-          // 最小値、最大値、中間値の設定
-          var min = 2; // 最小値
-          var max = 26; // 最大値
-          var mid = (min + max) / 2; // 中間値
-          // 色の設定
-          if (value <= min) return "red"; // 最小値以下は赤
-          else if (value >= max) return "green"; // 最大値以上は緑
-          else if (value <= mid) return "yellow"; // 中間値以下は黄色
-          else return "white"; // それ以外は白
+        // 数値の場合のみカラースケールを適用する
+        var numericValue = parseFloat(d.value);
+        if (!isNaN(numericValue)) {
+          // 最小値、中間値、最大値の定義
+          var minValue = 0;
+          var maxValue = 100;
+          var midValue = (maxValue + minValue) / 2;
+          
+          // カラースケールの定義
+          var red = d3.color("red");
+          var yellow = d3.color("yellow");
+          var green = d3.color("green");
+          
+          // 値に基づいて適切な色を返す
+          if (numericValue <= midValue) {
+            return red.interpolate(yellow)(numericValue / midValue);
+          } else {
+            return yellow.interpolate(green)((numericValue - midValue) / (maxValue - midValue));
+          }
         } else {
-          // 数値でない場合は白
+          // 数値でない場合は白を返す
           return "white";
         }
-      })
-      .text(function(d) { return d.value; });
+      });
   }).catch(function(error) {
     // エラーハンドリング
     console.error("データの読み込み中にエラーが発生しました:", error);
