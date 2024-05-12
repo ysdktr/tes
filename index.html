@@ -52,34 +52,38 @@
       .append("tr");
     
     // 各行のセルを生成
-    var cells = rows.selectAll("td")
-      .data(function(row) {
-        return columns.map(function(column) {
-          return {column: column, value: row[column]};
-        });
-      })
-      .enter()
-      .append("td")
-      .text(function(d) { return d.value; })
-      .style("background-color", function(d) {
-        // 数値でない場合は白に設定
-        if (isNaN(parseFloat(d.value))) {
-          return "white";
-        } else {
-          // 数値の場合はカラースケールを適用
-          var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
-          var minValue = d3.min(allValues);
-          var maxValue = d3.max(allValues);
-          var midValue = (minValue + maxValue) / 2; // 中間値を計算
+var cells = rows.selectAll("td")
+  .data(function(row) {
+    return columns.map(function(column) {
+      return {column: column, value: row[column]};
+    });
+  })
+  .enter()
+  .append("td")
+  .text(function(d) { return d.value; })
+  .style("background-color", function(d) {
+    // 数値でない場合は白に設定
+    if (isNaN(parseFloat(d.value))) {
+      return "white";
+    } else {
+      // 数値の場合はカラースケールを適用
+      if (d.column === columns[1]) { // 2列目のみに適用
+        var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
+        var minValue = d3.min(allValues);
+        var maxValue = d3.max(allValues);
+        var midValue = (minValue + maxValue) / 2; // 中間値を計算
 
-          // カラースケールを定義
-          var colorScale = d3.scaleLinear()
-                             .domain([minValue, midValue, maxValue])
-                             .range(["red", "yellow", "green"]);
+        // カラースケールを定義
+        var colorScale = d3.scaleLinear()
+                           .domain([minValue, midValue, maxValue])
+                           .range(["red", "yellow", "green"]);
 
-          return colorScale(parseFloat(d.value));
-        }
-      });
+        return colorScale(parseFloat(d.value));
+      } else {
+        return null; // 2列目以外は色を変更しない
+      }
+    }
+  });
   }).catch(function(error) {
     // エラーハンドリング
     console.error("データの読み込み中にエラーが発生しました:", error);
