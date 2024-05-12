@@ -84,7 +84,7 @@
             return colorScale(parseFloat(d.value));
           }
         } else {
-          return null; // 制限外の行はカラースケールを適用しない
+          return "white"; // 制限外の行は白色に設定
         }
       });
   }).catch(function(error) {
