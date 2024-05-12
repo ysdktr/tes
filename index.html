@@ -32,8 +32,8 @@
 <script>
   // CSVファイルのパス
   var csvFile = "data.csv";
-  // 表示する行数の制限
-  var numRowsToShow = 27;
+  // カラースケールの適用対象行数の制限
+  var numRowsForColorScale = 27;
 
   // CSVファイルの読み込み
   d3.csv(csvFile).then(function(data) {
@@ -63,23 +63,28 @@
       .enter()
       .append("td")
       .text(function(d) { return d.value; })
-      .style("background-color", function(d, i, j) {
-        // 数値でない場合は白に設定
-        if (isNaN(parseFloat(d.value))) {
-          return "white";
+      .style("background-color", function(d, i) {
+        // カラースケールを適用する行数を制限
+        if (i < numRowsForColorScale) {
+          // 数値でない場合は白に設定
+          if (isNaN(parseFloat(d.value))) {
+            return "white";
+          } else {
+            // 数値の場合はカラースケールを適用
+            var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
+            var minValue = d3.min(allValues);
+            var maxValue = d3.max(allValues);
+            var midValue = (minValue + maxValue) / 2; // 中間値を計算
+
+            // カラースケールを定義
+            var colorScale = d3.scaleLinear()
+                               .domain([minValue, midValue, maxValue])
+                               .range(["red", "yellow", "green"]);
+
+            return colorScale(parseFloat(d.value));
+          }
         } else {
-          // 数値の場合はカラースケールを適用
-          var allValues = data.slice(0, numRowsToShow).map(function(row) { return parseFloat(row[d.column]); });
-          var minValue = d3.min(allValues);
-          var maxValue = d3.max(allValues);
-          var midValue = (minValue + maxValue) / 2; // 中間値を計算
-
-          // カラースケールを定義
-          var colorScale = d3.scaleLinear()
-                             .domain([minValue, midValue, maxValue])
-                             .range(["red", "yellow", "green"]);
-
-          return colorScale(parseFloat(d.value));
+          return "white"; // 制限外の行は白色に設定
         }
       });
   }).catch(function(error) {
