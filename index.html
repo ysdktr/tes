@@ -49,6 +49,11 @@
       .append("th")
       .text(function(d) { return d; });
 
+    // 最小値と最大値の計算
+    var allValues = data.map(function(d) { return parseFloat(d.value); });
+    var minValue = d3.min(allValues);
+    var maxValue = d3.max(allValues);
+
     // データ行の生成
     var tbody = d3.select("#data-table tbody");
     var rows = tbody.selectAll("tr")
