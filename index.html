@@ -57,8 +57,8 @@
     // 各行生成
     var cells = rows.selectAll("td")
       .data(function(row, i) {
-        return columns.map(function(column) {
-          return {column: column, value: row[column], rowIndex: i};
+        return columns.map(function(column, colIndex) {
+          return {column: column, value: row[column], rowIndex: i, colIndex: colIndex};
         });
       })
       .enter()
@@ -72,22 +72,26 @@
           var allValues, minValue, maxValue, midValue, colorScale;
 
           // 行インデックスによってカラースケールの範囲を設定
-          if (d.rowIndex < 27) {
-            allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
+          if (d.colIndex < 8) { // 8列目まで制限
+            if (d.rowIndex < 27) {
+              allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
+            } else {
+              allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
+            }
+
+            minValue = d3.min(allValues);
+            maxValue = d3.max(allValues);
+            midValue = (minValue + maxValue) / 2;
+
+            // カラースケール定義
+            colorScale = d3.scaleLinear()
+                           .domain([minValue, midValue, maxValue])
+                           .range(["red", "yellow", "green"]);
+
+            return colorScale(parseFloat(d.value));
           } else {
-            allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
+            return "white"; // 8列目以降は背景色を白に設定
           }
-
-          minValue = d3.min(allValues);
-          maxValue = d3.max(allValues);
-          midValue = (minValue + maxValue) / 2;
-
-          // カラースケール定義
-          colorScale = d3.scaleLinear()
-                         .domain([minValue, midValue, maxValue])
-                         .range(["red", "yellow", "green"]);
-
-          return colorScale(parseFloat(d.value));
         }
       });
 
@@ -100,7 +104,7 @@
 
     // 8列目のセルにクラスを追加して縦線を引く
     rows.selectAll("td")
-      .filter(function(d, i) { return i === 7; })  // 8列目
+      .filter(function(d) { return d.colIndex === 7; })  // 8列目
       .classed("highlight-column", true);
 
   }).catch(function(error) {
