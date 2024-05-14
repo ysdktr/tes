@@ -66,23 +66,23 @@
         if (isNaN(parseFloat(d.value))) {
           return "white";
         } else {
-          // 数値の場合はカラースケールを適用
-          var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
-          var minValue = d3.min(allValues);
-          var maxValue = d3.max(allValues);
-          var midValue = (minValue + maxValue) / 2; // 中間値を計算
+          var allValues, minValue, maxValue, midValue, colorScale;
 
-          // 行インデックスによってカラースケールを分ける
-          var colorScale;
+          // 行インデックスによってカラースケールの範囲を設定
           if (d.rowIndex < 27) {
-            colorScale = d3.scaleLinear()
-                           .domain([minValue, midValue, maxValue])
-                           .range(["red", "yellow", "green"]);
+            allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
           } else {
-            colorScale = d3.scaleLinear()
-                           .domain([minValue, midValue, maxValue])
-                           .range(["red", "yellow", "green"]);
+            allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
           }
+
+          minValue = d3.min(allValues);
+          maxValue = d3.max(allValues);
+          midValue = (minValue + maxValue) / 2; // 中間値を計算
+
+          // カラースケールを定義
+          colorScale = d3.scaleLinear()
+                         .domain([minValue, midValue, maxValue])
+                         .range(["red", "yellow", "green"]);
 
           return colorScale(parseFloat(d.value));
         }
