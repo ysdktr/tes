@@ -22,6 +22,9 @@
     .highlight-column {
       border-right: 2px solid black;
     }
+    .first-column {
+      background-color: #e0e0e0; /* 任意の背景色 */
+    }
   </style>
 </head>
 <body>
@@ -103,7 +106,8 @@
             return colorScale(parseFloat(d.value));
           }
         }
-      });
+      })
+      .classed("first-column", function(d) { return d.colIndex === 0; }); // 1列目にクラスを追加
 
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
