@@ -23,7 +23,7 @@
       border-right: 2px solid black;
     }
     .first-column {
-      background-color: #f2f2f2; /* 任意の背景色 */
+      background-color: #e0e0e0; /* 任意の背景色 */
     }
   </style>
 </head>
@@ -106,8 +106,12 @@
             return colorScale(parseFloat(d.value));
           }
         }
-      })
-      .classed("first-column", function(d) { return d.colIndex === 0; }); // 1列目にクラスを追加
+      });
+
+    // 1列目のセルにクラスを追加
+    rows.selectAll("td")
+      .filter(function(d) { return d.colIndex === 0; })  // 1列目
+      .classed("first-column", true);
 
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
