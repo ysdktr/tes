@@ -17,7 +17,7 @@
     th {
       background-color: #f2f2f2;
     }
-    .highlight {
+    .highlight-row .highlight-column {
       border-bottom: 2px solid black;
     }
   </style>
@@ -91,10 +91,15 @@
 
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
-      .filter(function(d, i) { return i === 26; })  // 27行目はインデックス26
+      .filter(function(d, i) { return i === 24; })  // 27行目はインデックス26
       .selectAll("td")
       .filter(function(d, i) { return i < 8; })  // 8列目まで
-      .classed("highlight", true);
+      .classed("highlight-row", true);
+
+    // 8列目のセルにクラスを追加して縦線を引く
+    rows.selectAll("td")
+      .filter(function(d, i) { return i === 7; })  // 8列目はインデックス7
+      .classed("highlight-column", true);
 
   }).catch(function(error) {
     console.error("データの読み込み中にエラーが発生しました:", error);
