@@ -95,7 +95,7 @@
     d3.select("#data-table tbody").selectAll("tr")
       .filter(function(d, i) { return i === 24; })  // 24行目まで
       .selectAll("td")
-      .filter(function(d, i) { return i >= 2 && i < 8; })  // 8列目まで
+      .filter(function(d, i) { return i >= 1 && i < 8; })  // 8列目まで
       .classed("highlight-row", true);
 
     // 8列目のセルにクラスを追加して縦線を引く
