@@ -23,7 +23,7 @@
       border-right: 2px solid black;
     }
     .first-column {
-      background-color: #f2f2f2; /* 任意の背景色 */
+      background-color: #f2f2f2; 
     }
   </style>
 </head>
@@ -68,9 +68,12 @@
       .append("td")
       .text(function(d) { return d.value; })
       .style("background-color", function(d) {
-        // 数値でない場合は白に設定
+        if (d.colIndex === 0) {
+          return null; // 1列目の背景色はクラスで制御
+        }
+        // 2列目以降の背景色設定
         if (isNaN(parseFloat(d.value))) {
-          return "white";
+          return "white"; // 数値でない場合は白に設定
         } else {
           var allValues, minValue, maxValue, midValue, colorScale;
 
