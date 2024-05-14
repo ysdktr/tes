@@ -38,7 +38,7 @@
 
   // CSVファイルの読み込み
   d3.csv(csvFile).then(function(data) {
-    // ヘッダ行の生成
+    // ヘッダー行生成
     var columns = Object.keys(data[0]);
     var headerRow = d3.select("#data-table thead tr");
     headerRow.selectAll("th")
@@ -47,14 +47,14 @@
       .append("th")
       .text(function(d) { return d; });
 
-    // データ行の生成
+    // データ行生成
     var tbody = d3.select("#data-table tbody");
     var rows = tbody.selectAll("tr")
       .data(data)
       .enter()
       .append("tr");
 
-    // 各行のセルを生成
+    // 各行生成
     var cells = rows.selectAll("td")
       .data(function(row, i) {
         return columns.map(function(column) {
@@ -80,9 +80,9 @@
 
           minValue = d3.min(allValues);
           maxValue = d3.max(allValues);
-          midValue = (minValue + maxValue) / 2; // 中間値を計算
+          midValue = (minValue + maxValue) / 2;
 
-          // カラースケールを定義
+          // カラースケール定義
           colorScale = d3.scaleLinear()
                          .domain([minValue, midValue, maxValue])
                          .range(["red", "yellow", "green"]);
@@ -100,7 +100,7 @@
 
     // 8列目のセルにクラスを追加して縦線を引く
     rows.selectAll("td")
-      .filter(function(d, i) { return i === 7; })  // 8列目はインデックス7
+      .filter(function(d, i) { return i === 7; })  // 8列目
       .classed("highlight-column", true);
 
   }).catch(function(error) {
