@@ -51,11 +51,31 @@
       .enter()
       .append("tr");
     
+    // 27行目までと28行目からのデータを分割
+    var data1 = data.slice(0, 27);
+    var data2 = data.slice(27);
+
+    // カラースケールの範囲を設定
+    function getColorScale(data) {
+      var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
+      var minValue = d3.min(allValues);
+      var maxValue = d3.max(allValues);
+      var midValue = (minValue + maxValue) / 2; // 中間値を計算
+
+      return d3.scaleLinear()
+               .domain([minValue, midValue, maxValue])
+               .range(["red", "yellow", "green"]);
+    }
+
+    // カラースケールを作成
+    var colorScale1 = getColorScale(data1);
+    var colorScale2 = getColorScale(data2);
+
     // 各行のセルを生成
     var cells = rows.selectAll("td")
-      .data(function(row) {
+      .data(function(row, i) {
         return columns.map(function(column) {
-          return {column: column, value: row[column]};
+          return {column: column, value: row[column], rowIndex: i};
         });
       })
       .enter()
@@ -66,17 +86,7 @@
         if (isNaN(parseFloat(d.value))) {
           return "white";
         } else {
-          // 数値の場合はカラースケールを適用
-          var allValues = data.map(function(row) { return parseFloat(row[d.column]); });
-          var minValue = d3.min(allValues);
-          var maxValue = d3.max(allValues);
-          var midValue = (minValue + maxValue) / 2; // 中間値を計算
-
-          // カラースケールを定義
-          var colorScale = d3.scaleLinear()
-                             .domain([minValue, midValue, maxValue])
-                             .range(["red", "yellow", "green"]);
-
+          var colorScale = d.rowIndex < 27 ? colorScale1 : colorScale2;
           return colorScale(parseFloat(d.value));
         }
       });
