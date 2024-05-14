@@ -71,7 +71,6 @@
         } else {
           var allValues, minValue, maxValue, midValue, colorScale;
 
-          // 行インデックスによってカラースケールの範囲を設定
           if (d.colIndex < 8) { // 8列目まで制限
             if (d.rowIndex < 27) {
               allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
@@ -89,8 +88,19 @@
                            .range(["red", "yellow", "green"]);
 
             return colorScale(parseFloat(d.value));
-          } else {
-            return "white"; // 8列目以降は背景色を白に設定
+          } else { // 9列目以降
+            allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
+
+            minValue = d3.min(allValues);
+            maxValue = d3.max(allValues);
+            midValue = (minValue + maxValue) / 2;
+
+            // カラースケール定義
+            colorScale = d3.scaleLinear()
+                           .domain([minValue, midValue, maxValue])
+                           .range(["red", "yellow", "green"]);
+
+            return colorScale(parseFloat(d.value));
           }
         }
       });
