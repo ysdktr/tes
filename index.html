@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>TITLE</title>
-  <meta name="viewport" content="width=device-width"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     table {
       border-collapse: collapse;
+      width: 100%;
     }
     th, td {
       border: 1px solid #ddd;
@@ -23,39 +24,42 @@
       border-right: 2px solid black;
     }
     .first-column {
-      background-color: #f2f2f2; 
+      background-color: #f2f2f2;
       text-align: left;
     }
 
-/* 画面幅<600 */
-  @media (max-width: 599px) {
-    table{
-      font-size: 7px;
+    /* 画面幅<600 */
+    @media (max-width: 599px) {
+      .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      table {
+        font-size: 7px;
+      }
+      th, td {
+        padding: 0;
+        white-space: nowrap;
+      }
+      .first-column {
+        width: 30px;
+      }
     }
-    th, td {
-      padding: 0;
-    }
-    .first-column{
-      width: 30px;
-    }
-
-  }
-
-
-    
   </style>
 </head>
 <body>
 
-<table id="data-table">
-  <thead>
-    <tr></tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<div class="table-container">
+  <table id="data-table">
+    <thead>
+      <tr></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 
-  <p>最終更新日</p>
-  <p>説明書き</p>
+<p>最終更新日</p>
+<p>説明書き</p>
 <script>
   var csvFile = "data.csv";
 
