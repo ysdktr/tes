@@ -5,12 +5,8 @@
   <title>TITLE</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
     table {
       border-collapse: collapse;
-      transform-origin: 0 0;
     }
     th, td {
       border: 1px solid #ddd;
@@ -27,26 +23,18 @@
       border-right: 2px solid black;
     }
     .first-column {
-      background-color: #e0e0e0; /* 任意の背景色 */
-    }
-    .table-container {
-      overflow: auto;
-      width: 100%;
-      max-height: 500px; /* 適宜変更 */
-      border: 1px solid #ddd;
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 <body>
 
-<div class="table-container">
-  <table id="data-table">
-    <thead>
-      <tr></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+<table id="data-table">
+  <thead>
+    <tr></tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
 <script>
   var csvFile = "data.csv";
@@ -143,52 +131,6 @@
   }).catch(function(error) {
     console.error("データの読み込み中にエラーが発生しました:", error);
   });
-
-  // ズーム機能
-  var scale = 1;
-  var table = document.querySelector('#data-table');
-
-  // マウスホイールズーム
-  table.addEventListener('wheel', function(event) {
-    if (event.ctrlKey) {
-      event.preventDefault();
-      if (event.deltaY < 0) {
-        scale += 0.1;
-      } else {
-        scale -= 0.1;
-        if (scale < 0.1) scale = 0.1;
-      }
-      table.style.transform = 'scale(' + scale + ')';
-    }
-  });
-
-  // ピンチズーム用のタッチイベント
-  var initialDistance = null;
-  var initialScale = scale;
-
-  table.addEventListener('touchstart', function(event) {
-    if (event.touches.length === 2) {
-      initialDistance = getDistance(event.touches[0], event.touches[1]);
-      initialScale = scale;
-      event.preventDefault();
-    }
-  });
-
-  table.addEventListener('touchmove', function(event) {
-    if (event.touches.length === 2) {
-      var newDistance = getDistance(event.touches[0], event.touches[1]);
-      var scaleChange = newDistance / initialDistance;
-      scale = initialScale * scaleChange;
-      table.style.transform = 'scale(' + scale + ')';
-      event.preventDefault();
-    }
-  });
-
-  function getDistance(touch1, touch2) {
-    var dx = touch2.clientX - touch1.clientX;
-    var dy = touch2.clientY - touch1.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
 </script>
 
 </body>
