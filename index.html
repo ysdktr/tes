@@ -61,10 +61,9 @@
       height: 50%;
     }
 
-
-
-
-    
+.des-column{
+  text-align: center;
+}
 
 
 /* 画面幅<500 */
@@ -99,12 +98,6 @@ h1{
   @media (min-width: 800px) {
     
   }
-
-
-
-
-
-    
     
   </style>
 </head>
@@ -189,14 +182,9 @@ h1{
 </table>
   </div>
   
-  
-  
-  
   <li>現役メンバーのみ　卒業対応済みのメンバーを詰めた順番</li>
   <li>4~7周目は5期生がまとまって実装されたため、3,4期生とは別に</li>
   <li>8,9周目は同形態のためまとめて</li>
-
-
   
 <script>
   var csvFile = "data.csv";
@@ -238,58 +226,47 @@ h1{
           return "white"; // 数値でない場合は白に設定
         } else {
           var allValues, minValue, maxValue, midValue, colorScale;
-
           if (d.colIndex < 8) { // 8列目まで制限
             if (d.rowIndex < 27) {
               allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
             } else {
               allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
             }
-
             minValue = d3.min(allValues);
             maxValue = d3.max(allValues);
             midValue = (minValue + maxValue) / 2;
-
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
                            .range(["red", "yellow", "green"]);
-
             return colorScale(parseFloat(d.value));
           } else { // 9列目以降
             allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
-
             minValue = d3.min(allValues);
             maxValue = d3.max(allValues);
             midValue = (minValue + maxValue) / 2;
-
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
                            .range(["red", "yellow", "green"]);
-
             return colorScale(parseFloat(d.value));
           }
         }
       });
-
     // 1列目のセルにクラスを追加
     rows.selectAll("td")
       .filter(function(d) { return d.colIndex === 0; })  // 1列目
       .classed("first-column", true);
-
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
       .filter(function(d, i) { return i === 24; })  // 24行目まで
       .selectAll("td")
       .filter(function(d, i) { return i >= 1 && i < 8; })  // 8列目まで
       .classed("highlight-row", true);
-
     // 8列目のセルにクラスを追加して縦線を引く
     rows.selectAll("td")
       .filter(function(d) { return d.colIndex === 7; })  // 8列目
       .classed("highlight-column", true);
-
   }).catch(function(error) {
     console.error("データの読み込み中にエラーが発生しました:", error);
   });
