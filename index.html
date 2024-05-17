@@ -51,7 +51,11 @@
   background-color: green;
 }
 
-
+.table-container{
+  display: flex;
+  justify-content: space-between; 
+  gap: 10px;
+}
 
 
 
@@ -104,7 +108,6 @@ h1{
 </head>
 <body>
   <h1>メンバー別実装順</h1>
-  <p>最終更新日：</p>
 
 <table id="data-table">
   <thead>
@@ -113,9 +116,11 @@ h1{
   <tbody></tbody>
 </table>
 
+  <p>最終更新日：2024年5月〇日</p>
+
   <p>説明</p>
 
-  
+  <div class="table-container">
 <table id="gra-table">
   <tbody>
     <tr>
@@ -140,8 +145,6 @@ h1{
     </tr>
   </tbody>
 </table>
-  
-
   <table id="des-table">
   <tbody>
     <tr>
@@ -182,7 +185,7 @@ h1{
     </tr>
   </tbody>
 </table>
-  
+  </div>
   
   
   
