@@ -2,23 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1.5, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.5, user-scalable=yes">
   <title>TITLE</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     table {
       border-collapse: collapse;
-      width: 100%;
-      max-width: 600px;
-      /* カラム幅を固定　table-layout: fixed;  */
-      transform-origin: 0 0; /* 拡大・縮小の基点を左上に設定 */
     }
     th, td {
       border: 1px solid #ddd;
       text-align: left;
-      white-space: nowrap; /* 折り返しを防止 */
-      overflow: hidden; /* はみ出た部分を隠す */
-      text-overflow: ellipsis; /* はみ出た部分を省略記号で表示 */
     }
     th {
       background-color: #f2f2f2;
@@ -32,190 +25,217 @@
     .first-column {
       background-color: #f2f2f2;
     }
+
     .red-cell {
-      background-color: red;
-    }
-    .orange-cell {
-      background-color: orange;
-    }
-    .yellow-cell {
-      background-color: yellow;
-    }
-    .lime-cell {
-      background-color: lime;
-    }
-    .green-cell {
-      background-color: green;
-    }
+  background-color: red;
+}
+
+.orange-cell {
+  background-color: orange;
+}
+
+.yellow-cell {
+  background-color: yellow;
+}
+
+.lime-cell {
+  background-color: lime;
+}
+
+.green-cell {
+  background-color: green;
+}
+
+    
   </style>
 </head>
 <body>
   <h1>メンバー別実装順</h1>
   <p>最終更新日：</p>
-  <table id="data-table">
-    <thead>
-      <tr></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+
+<table id="data-table">
+  <thead>
+    <tr></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
   <p>説明</p>
-  <table id="gra-table">
-    <tbody>
-      <tr>
-        <td class="red-cell">　　</td>
-        <td>早い</td>
-      </tr>
-      <tr>
-        <td class="orange-cell">　　</td>
-        <td>　　</td>
-      </tr>
-      <tr>
-        <td class="yellow-cell">　　</td>
-        <td>　　</td>
-      </tr>
-      <tr>
-        <td class="lime-cell">　　</td>
-        <td>　　</td>
-      </tr>
-      <tr>
-        <td class="green-cell">　　</td>
-        <td>遅い</td>
-      </tr>
-    </tbody>
-  </table>
+
+  
+<table id="gra-table">
+  <tbody>
+    <tr>
+      <td class="red-cell">　　</td>
+      <td>早い</td>
+    </tr>
+    <tr>
+      <td class="orange-cell">　　</td>
+      <td>　　</td>
+    </tr>
+    <tr>
+      <td class="yellow-cell">　　</td>
+      <td>　　</td>
+    </tr>
+    <tr>
+      <td class="lime-cell">　　</td>
+      <td>　　</td>
+    </tr>
+    <tr>
+      <td class="green-cell">　　</td>
+      <td>遅い</td>
+    </tr>
+  </tbody>
+</table>
+  
+
   <table id="des-table">
-    <tbody>
-      <tr>
-        <td>1周目</td>
-        <td>α or β</td>
-      </tr>
-      <tr>
-        <td>2周目</td>
-        <td>α or β</td>
-      </tr>
-      <tr>
-        <td>3周目</td>
-        <td>γ</td>
-      </tr>
-      <tr>
-        <td>4周目</td>
-        <td>3,4期UR1周目、5期α(SSR)</td>
-      </tr>
-      <tr>
-        <td>5周目</td>
-        <td>3,4期UR2周目、5期α(UR)</td>
-      </tr>
-      <tr>
-        <td>6周目</td>
-        <td>3,4期UR3周目、5期ε1</td>
-      </tr>
-      <tr>
-        <td>7周目</td>
-        <td>3,4期δ、5期ε2</td>
-      </tr>
-      <tr>
-        <td>8周目</td>
-        <td>3,4期ε、5期ε3</td>
-      </tr>
-      <tr>
-        <td>9周目</td>
-        <td>LR1周目</td>
-      </tr>
-    </tbody>
-  </table>
+  <tbody>
+    <tr>
+      <td>1周目</td>
+      <td>α or β</td>
+    </tr>
+    <tr>
+      <td>2周目</td>
+      <td>α or β</td>
+    </tr>
+    <tr>
+      <td>3周目</td>
+      <td>γ</td>
+    </tr>
+    <tr>
+      <td>4周目</td>
+      <td>3,4期UR1周目、5期α(SSR)</td>
+    </tr>
+    <tr>
+      <td>5周目</td>
+      <td>3,4期UR2周目、5期α(UR)</td>
+    </tr>
+    <tr>
+      <td>6周目</td>
+      <td>3,4期UR3周目、5期ε1</td>
+    </tr>
+    <tr>
+      <td>7周目</td>
+      <td>3,4期δ、5期ε2</td>
+    </tr>
+    <tr>
+      <td>8周目</td>
+      <td>3,4期ε、5期ε3</td>
+    </tr>
+    <tr>
+      <td>9周目</td>
+      <td>LR1周目</td>
+    </tr>
+  </tbody>
+</table>
+  
+  
+  
+  
+  
   <li>現役メンバーのみ　卒業対応済みのメンバーを詰めた順番</li>
   <li>4~7周目は5期生がまとまって実装されたため、3,4期生とは別に</li>
   <li>8,9周目は同形態のためまとめて</li>
-  <script>
-    var csvFile = "data.csv";
-    // CSVファイルの読み込み
-    d3.csv(csvFile).then(function(data) {
-      // ヘッダー行生成
-      var columns = Object.keys(data[0]);
-      var headerRow = d3.select("#data-table thead tr");
-      headerRow.selectAll("th")
-        .data(columns)
-        .enter()
-        .append("th")
-        .text(function(d) { return d; });
-      // データ行生成
-      var tbody = d3.select("#data-table tbody");
-      var rows = tbody.selectAll("tr")
-        .data(data)
-        .enter()
-        .append("tr");
-      // 各行生成
-      var cells = rows.selectAll("td")
-        .data(function(row, i) {
-          return columns.map(function(column, colIndex) {
-            return {column: column, value: row[column], rowIndex: i, colIndex: colIndex};
-          });
-        })
-        .enter()
-        .append("td")
-        .text(function(d) { return d.value; })
-        .style("background-color", function(d) {
-          if (d.colIndex === 0) {
-            return null; // 1列目の背景色はクラスで制御
-          }
-          // 2列目以降の背景色設定
-          if (isNaN(parseFloat(d.value))) {
-            return "white"; // 数値でない場合は白に設定
-          } else {
-            var allValues, minValue, maxValue, midValue, colorScale;
-            if (d.colIndex < 8) { // 8列目まで制限
-              if (d.rowIndex < 27) {
-                allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
-              } else {
-                allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
-              }
-              minValue = d3.min(allValues);
-              maxValue = d3.max(allValues);
-              midValue = (minValue + maxValue) / 2;
-              // カラースケール定義
-              colorScale = d3.scaleLinear()
-                             .domain([minValue, midValue, maxValue])
-                             .range(["red", "yellow", "green"]);
-              return colorScale(parseFloat(d.value));
-            } else { // 9列目以降
-              allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
-              minValue = d3.min(allValues);
-              maxValue = d3.max(allValues);
-              midValue = (minValue + maxValue) / 2;
-              // カラースケール定義
-              colorScale = d3.scaleLinear()
-                             .domain([minValue, midValue, maxValue])
-                             .range(["red", "yellow", "green"]);
-              return colorScale(parseFloat(d.value));
-            }
-          }
+
+
+  
+<script>
+  var csvFile = "data.csv";
+
+  // CSVファイルの読み込み
+  d3.csv(csvFile).then(function(data) {
+    // ヘッダー行生成
+    var columns = Object.keys(data[0]);
+    var headerRow = d3.select("#data-table thead tr");
+    headerRow.selectAll("th")
+      .data(columns)
+      .enter()
+      .append("th")
+      .text(function(d) { return d; });
+
+    // データ行生成
+    var tbody = d3.select("#data-table tbody");
+    var rows = tbody.selectAll("tr")
+      .data(data)
+      .enter()
+      .append("tr");
+
+    // 各行生成
+    var cells = rows.selectAll("td")
+      .data(function(row, i) {
+        return columns.map(function(column, colIndex) {
+          return {column: column, value: row[column], rowIndex: i, colIndex: colIndex};
         });
-      // 1列目のセルにクラスを追加
-      rows.selectAll("td")
-        .filter(function(d) { return d.colIndex === 0; })  // 1列目
-        .classed("first-column", true);
-      // 27行目のセルにクラスを追加して線を引く
-      d3.select("#data-table tbody").selectAll("tr")
-        .filter(function(d, i) { return i === 24; })  // 24行目まで
-        .selectAll("td")
-        .filter(function(d, i) { return i >= 1 && i < 8; })  // 8列目まで
-        .classed("highlight-row", true);
-      // 8列目のセルにクラスを追加して縦線を引く
-      rows.selectAll("td")
-        .filter(function(d) { return d.colIndex === 7; })  // 8列目
-        .classed("highlight-column", true);
-    }).catch(function(error) {
-      console.error("データの読み込み中にエラーが発生しました:", error);
-    });
-    window.addEventListener('resize', scaleTable);
-    document.addEventListener('DOMContentLoaded', scaleTable);
-    function scaleTable() {
-      const table = document.getElementById('data-table');
-      const containerWidth = document.body.clientWidth;
-      const tableWidth = table.offsetWidth;
-      const scale = containerWidth / tableWidth;
-      table.style.transform = `scale(${scale})`;
-    }
-  </script>
+      })
+      .enter()
+      .append("td")
+      .text(function(d) { return d.value; })
+      .style("background-color", function(d) {
+        if (d.colIndex === 0) {
+          return null; // 1列目の背景色はクラスで制御
+        }
+        // 2列目以降の背景色設定
+        if (isNaN(parseFloat(d.value))) {
+          return "white"; // 数値でない場合は白に設定
+        } else {
+          var allValues, minValue, maxValue, midValue, colorScale;
+
+          if (d.colIndex < 8) { // 8列目まで制限
+            if (d.rowIndex < 27) {
+              allValues = data.slice(0, 27).map(function(row) { return parseFloat(row[d.column]); });
+            } else {
+              allValues = data.slice(27).map(function(row) { return parseFloat(row[d.column]); });
+            }
+
+            minValue = d3.min(allValues);
+            maxValue = d3.max(allValues);
+            midValue = (minValue + maxValue) / 2;
+
+            // カラースケール定義
+            colorScale = d3.scaleLinear()
+                           .domain([minValue, midValue, maxValue])
+                           .range(["red", "yellow", "green"]);
+
+            return colorScale(parseFloat(d.value));
+          } else { // 9列目以降
+            allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
+
+            minValue = d3.min(allValues);
+            maxValue = d3.max(allValues);
+            midValue = (minValue + maxValue) / 2;
+
+            // カラースケール定義
+            colorScale = d3.scaleLinear()
+                           .domain([minValue, midValue, maxValue])
+                           .range(["red", "yellow", "green"]);
+
+            return colorScale(parseFloat(d.value));
+          }
+        }
+      });
+
+    // 1列目のセルにクラスを追加
+    rows.selectAll("td")
+      .filter(function(d) { return d.colIndex === 0; })  // 1列目
+      .classed("first-column", true);
+
+    // 27行目のセルにクラスを追加して線を引く
+    d3.select("#data-table tbody").selectAll("tr")
+      .filter(function(d, i) { return i === 24; })  // 24行目まで
+      .selectAll("td")
+      .filter(function(d, i) { return i >= 1 && i < 8; })  // 8列目まで
+      .classed("highlight-row", true);
+
+    // 8列目のセルにクラスを追加して縦線を引く
+    rows.selectAll("td")
+      .filter(function(d) { return d.colIndex === 7; })  // 8列目
+      .classed("highlight-column", true);
+
+  }).catch(function(error) {
+    console.error("データの読み込み中にエラーが発生しました:", error);
+  });
+</script>
+
 </body>
 </html>
