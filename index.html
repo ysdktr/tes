@@ -312,6 +312,10 @@ h1{
       .filter(function(d) { return d.colIndex === 0; })  // 1列目
       .classed("first-column", true);
 
+    // 2つ目の表（id=des1-table）の1列目にクラス名を追加
+    d3.select("#des1-table").selectAll("tr").select("td")
+      .classed("first-column", true);
+
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
       .filter(function(d, i) { return i === 24; })  // 24行目まで
