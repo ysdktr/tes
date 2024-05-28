@@ -17,306 +17,251 @@
       background-color: #f2f2f2;
       text-align: center;
     }
-
     .first-column {
       background-color: #f2f2f2;
       text-align: left;
     }
-
-
-.csv-content {
-  text-align: center;
-}
-    
+    .csv-content {
+      text-align: center;
+    }
     .highlight-row {
       border-bottom: 2px solid black;
     }
     .highlight-column {
       border-right: 2px solid black;
     }
-
     .red-cell {
-  background-color: red;
-}
-
-.orange-cell {
-  background-color: orange;
-}
-
-.yellow-cell {
-  background-color: yellow;
-}
-
-.lime-cell {
-  background-color: lime;
-}
-
-.green-cell {
-  background-color: green;
-}
-
-.table-container{
-  display: flex;
-  gap: 10px;
-}
-
-
-
-/* 画面幅<500 */
-  @media (max-width: 499px) {
-  h1{
-    color: blue;
-    text-align: center;
-    margin: 0 auto;
-  }
-
-    #data-table{
-      font-size: 8px;
-      line-height: 1.5;
+      background-color: red;
     }
-
-    .table-container{
-      font-size: 8px;
+    .orange-cell {
+      background-color: orange;
     }
-
-    #des1-table{
-
+    .yellow-cell {
+      background-color: yellow;
     }
-
-#gra-table{
-      height: 50%;
+    .lime-cell {
+      background-color: lime;
     }
-    
-    
-
-    p {
-      margin: 2px 0;
-      font-size: 8px;
+    .green-cell {
+      background-color: green;
     }
-
-    li {
-      font-size: 8px;
-    }
-    
-}	  
-/* 画面幅600~799 */
-  @media (min-width: 500px) and (max-width: 799px) {
-h1{
-    color: red;
-  text-align: center;
-  margin: 0 auto;
-  font-size: 24px;
-  }
-
-    .table-layout{
-      font-size: 12px;
-    }
-
-    #gra-table{
-      height: 50%;
-    }
-
-    
-    
-
-    p {
-      margin: 2px 0;
-      font-size: 12px;
-    }
-
-    li {
-      font-size: 12px;
-    }
-
-    
-    
-} 
-/* 画面幅800~ */
-  @media (min-width: 800px) {
-    h1{
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .table-layout{
+    .table-container {
       display: flex;
+      gap: 10px;
     }
-
-    #data-table{
-      margin-right: 10px;
-      font-size: 12px;
+    /* 画面幅<500 */
+    @media (max-width: 499px) {
+      h1 {
+        color: blue;
+        text-align: center;
+        margin: 0 auto;
+      }
+      #data-table {
+        font-size: 8px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+      .table-container {
+        font-size: 8px;
+      }
+      #gra-table {
+        height: 50%;
+      }
+      p {
+        margin: 2px 0;
+        font-size: 8px;
+      }
+      li {
+        font-size: 8px;
+      }
+    }	  
+    /* 画面幅600~799 */
+    @media (min-width: 500px) and (max-width: 799px) {
+      h1 {
+        color: red;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 24px;
+      }
+      .table-layout {
+        font-size: 12px;
+      }
+      #data-table{
+        margin-bottom: 10px;
+      }
+      #gra-table {
+        height: 50%;
+      }
+      p {
+        margin: 2px 0;
+        font-size: 12px;
+      }
+      li {
+        font-size: 12px;
+      }
+    } 
+    /* 画面幅800~ */
+    @media (min-width: 800px) {
+      h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .table-layout {
+        display: flex;
+      }
+      #data-table {
+        margin-right: 10px;
+        font-size: 12px;
+      }
+      .table-container {
+        font-size: 10px;
+      }
+      #des1-table {
+        height: 40%;
+      }
+      #des2-table {
+        height: 40%;
+      }
+      #gra-table {
+        height: 16%;
+      }
+      p{
+        margin: 3px 0; 
+       font-size: 12px;
+      }
+      li {
+        font-size: 12px;
+      }
     }
-
-    .table-container{
-      font-size: 10px;
-    }
-
-    
-    #des1-table{
-      height: 40%;
-    }
-
-    #des2-table{
-      height: 40%;
-    }
-
-    #gra-table{
-      height: 20%;
-    }
-    
-    p{
-     margin: 3px 0; 
-     font-size: 12px;
-    }
-
-    li {
-      font-size: 12px;
-    }
-
-    
-  }
-    
   </style>
 </head>
 <body>
   <h1>メンバー別実装順</h1>
-
-<div class="table-layout">
-  
-<table id="data-table">
-  <thead>
-    <tr></tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-  <div class="table-container">
-  <table id="des1-table">
-  <tbody>
-    <tr>
-      <td>1周目</td>
-      <td>α or β</td>
-    </tr>
-    <tr>
-      <td>2周目</td>
-      <td>α or β</td>
-    </tr>
-    <tr>
-      <td>3周目</td>
-      <td>γ</td>
-    </tr>
-    <tr>
-      <td>4周目</td>
-      <td>3,4期UR1周目、5期α(SSR)</td>
-    </tr>
-    <tr>
-      <td>5周目</td>
-      <td>3,4期UR2周目、5期α(UR)</td>
-    </tr>
-    <tr>
-      <td>6周目</td>
-      <td>3,4期UR3周目、5期ε1</td>
-    </tr>
-    <tr>
-      <td>7周目</td>
-      <td>3,4期δ、5期ε2</td>
-    </tr>
-    <tr>
-      <td>8周目</td>
-      <td>3,4期ε、5期ε3</td>
-    </tr>
-    <tr>
-      <td>9周目</td>
-      <td>LR1周目</td>
-    </tr>
-  </tbody>
-</table>
-
-<table id="des2-table">
-  <tbody>
-    <tr>
-      <td colspan="2" class="des2-header">3,4期生表記</td>
-    </tr>
-    <tr>
-      <td>α</td>
-      <td>NOGIスタート</td>
-    </tr>
-    <tr>
-      <td>β</td>
-      <td>SRスタート</td>
-    </tr>
-    <tr>
-      <td>γ</td>
-      <td>Rスタート</td>
-    </tr>
-    <tr>
-      <td>δ</td>
-      <td>URスタート</td>
-    </tr>
-    <tr>
-      <td>ε</td>
-      <td>SSRスタート</td>
-    </tr>
-    <tr>
-      <td colspan="2" class="des2-header">5期生表記</td>
-    </tr>
-    <tr>
-      <td>α</td>
-      <td>NOGIスタート</td>
-    </tr>
-    <tr>
-      <td>ε1</td>
-      <td>2周目</td>
-    </tr>
-    <tr>
-      <td>ε2</td>
-      <td>3周目</td>
-    </tr>
-    <tr>
-      <td>ε3</td>
-      <td>4周目</td>
-    </tr>
-  </tbody>
-</table>
-
-
-    
-  <table id="gra-table">
-  <tbody>
-    <tr>
-      <td class="red-cell">　</td>
-      <td>早い</td>
-    </tr>
-    <tr>
-      <td class="orange-cell">　</td>
-      <td>　　</td>
-    </tr>
-    <tr>
-      <td class="yellow-cell">　</td>
-      <td>　　</td>
-    </tr>
-    <tr>
-      <td class="lime-cell">　</td>
-      <td>　　</td>
-    </tr>
-    <tr>
-      <td class="green-cell">　</td>
-      <td>遅い</td>
-    </tr>
-  </tbody>
-</table>
+  <div class="table-layout">
+    <table id="data-table">
+      <thead>
+        <tr></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="table-container">
+      <table id="des1-table">
+        <tbody>
+          <tr>
+            <td>1周目</td>
+            <td>α or β</td>
+          </tr>
+          <tr>
+            <td>2周目</td>
+            <td>α or β</td>
+          </tr>
+          <tr>
+            <td>3周目</td>
+            <td>γ</td>
+          </tr>
+          <tr>
+            <td>4周目</td>
+            <td>3,4期UR1周目、5期α(SSR)</td>
+          </tr>
+          <tr>
+            <td>5周目</td>
+            <td>3,4期UR2周目、5期α(UR)</td>
+          </tr>
+          <tr>
+            <td>6周目</td>
+            <td>3,4期UR3周目、5期ε1</td>
+          </tr>
+          <tr>
+            <td>7周目</td>
+            <td>3,4期δ、5期ε2</td>
+          </tr>
+          <tr>
+            <td>8周目</td>
+            <td>3,4期ε、5期ε3</td>
+          </tr>
+          <tr>
+            <td>9周目</td>
+            <td>LR1周目</td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="des2-table">
+        <tbody>
+          <tr>
+            <td colspan="2" class="des2-header">3,4期生表記</td>
+          </tr>
+          <tr>
+            <td>α</td>
+            <td>NOGIスタート</td>
+          </tr>
+          <tr>
+            <td>β</td>
+            <td>SRスタート</td>
+          </tr>
+          <tr>
+            <td>γ</td>
+            <td>Rスタート</td>
+          </tr>
+          <tr>
+            <td>δ</td>
+            <td>URスタート</td>
+          </tr>
+          <tr>
+            <td>ε</td>
+            <td>SSRスタート</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="des2-header">5期生表記</td>
+          </tr>
+          <tr>
+            <td>α</td>
+            <td>NOGIスタート</td>
+          </tr>
+          <tr>
+            <td>ε1</td>
+            <td>2周目</td>
+          </tr>
+          <tr>
+            <td>ε2</td>
+            <td>3周目</td>
+          </tr>
+          <tr>
+            <td>ε3</td>
+            <td>4周目</td>
+          </tr>
+        </tbody>
+      </table>
+      <table id="gra-table">
+        <tbody>
+          <tr>
+            <td class="red-cell">　</td>
+            <td>早い</td>
+          </tr>
+          <tr>
+            <td class="orange-cell">　</td>
+            <td>　　</td>
+          </tr>
+          <tr>
+            <td class="yellow-cell">　</td>
+            <td>　　</td>
+          </tr>
+          <tr>
+            <td class="lime-cell">　</td>
+            <td>　　</td>
+          </tr>
+          <tr>
+            <td class="green-cell">　</td>
+            <td>遅い</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  
-</div>
-
-<p>最終更新日：2024年5月〇日</p>
-
+  <p>最終更新日：2024年〇月〇日</p>
   <li>4~7周目は5期生がまとまって実装されたため、3,4期生とは分別</li>
-  <li>8周目に全員[32nd制服]からスタートしたためこれ以降は統合</li>
-  
+  <li>8周目に全員[32nd制服]からスタートしたためこれ以降は統合</li> 
 <script>
   var csvFile = "data.csv";
-
   // CSVファイルの読み込み
   d3.csv(csvFile).then(function(data) {
     // ヘッダー行生成
@@ -327,14 +272,12 @@ h1{
       .enter()
       .append("th")
       .text(function(d) { return d; });
-
     // データ行生成
     var tbody = d3.select("#data-table tbody");
     var rows = tbody.selectAll("tr")
       .data(data)
       .enter()
       .append("tr");
-
     // 各行生成
     var cells = rows.selectAll("td")
       .data(function(row, i) {
@@ -350,11 +293,11 @@ h1{
       })
       .style("background-color", function(d) {
         if (d.colIndex === 0) {
-          return null; // 1列目の背景色はクラスで制御
+          return null; // 1列目背景色
         }
         // 2列目以降の背景色設定
         if (isNaN(parseFloat(d.value))) {
-          return "white"; // 数値でない場合は白に設定
+          return "white"; // 数値でない場合は白
         } else {
           var allValues, minValue, maxValue, midValue, colorScale;
           if (d.colIndex < 8) { // 8列目まで制限
@@ -384,32 +327,26 @@ h1{
           }
         }
       });
-
     // 1列目のセルにクラスを追加
     rows.selectAll("td")
       .filter(function(d) { return d.colIndex === 0; })  // 1列目
       .classed("first-column", true);
-
     // 2つ目の表（id=des1-table）の1列目にクラス名を追加
     d3.select("#des1-table").selectAll("tr").select("td")
       .classed("first-column", true);
-
     // 27行目のセルにクラスを追加して線を引く
     d3.select("#data-table tbody").selectAll("tr")
       .filter(function(d, i) { return i === 24; })  // 24行目まで
       .selectAll("td")
       .filter(function(d, i) { return i >= 1 && i < 8; })  // 8列目まで
       .classed("highlight-row", true);
-
     // 8列目のセルにクラスを追加して縦線を引く
     rows.selectAll("td")
       .filter(function(d) { return d.colIndex === 7; })  // 8列目
-      .classed("highlight-column", true);
-      
+      .classed("highlight-column", true);   
   }).catch(function(error) {
     console.error("データの読み込み中にエラーが発生しました:", error);
   });
 </script>
-
 </body>
 </html>
