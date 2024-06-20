@@ -311,7 +311,7 @@
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
-                           .range(["red", "yellow", "green"]);
+                           .range(["red", "yellow", "#009900"]);
             return colorScale(parseFloat(d.value));
           } else { // 9列目以降
             allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
@@ -321,7 +321,7 @@
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
-                           .range(["red", "yellow", "green"]);
+                           .range(["red", "yellow", "#009900"]);
             return colorScale(parseFloat(d.value));
           }
         }
