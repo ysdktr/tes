@@ -311,7 +311,7 @@
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
-                           .range(["#ff0000", "#ffff00", "#008200"]);
+                           .range(["#ff0000", "#ffff00", "#009a00"]);
             return colorScale(parseFloat(d.value));
           } else { // 9列目以降
             allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
