@@ -31,19 +31,19 @@
       border-right: 2px solid black;
     }
     .red-cell {
-      background-color: red;
+      background-color: #e60000;
     }
     .orange-cell {
       background-color: orange;
     }
     .yellow-cell {
-      background-color: yellow;
+      background-color: #ffff00;
     }
     .lime-cell {
       background-color: lime;
     }
     .green-cell {
-      background-color: green;
+      background-color: #009a00;
     }
     .table-container {
       display: flex;
@@ -257,6 +257,7 @@
     </div>
   </div>
   <p>最終更新日：2024年〇月〇日</p>
+  <li>同日実装は五十音順に則って表記</li>
   <li>4~7周目は5期生がまとまって実装されたため、3,4期生とは分別</li>
   <li>8周目で全員SSR[32nd制服]で実装されたためこれ以降は統合</li> 
 <script>
@@ -315,13 +316,13 @@
             return colorScale(parseFloat(d.value));
           } else { // 9列目以降
             allValues = data.map(function(row) { return parseFloat(row[d.column]); }).filter(function(val) { return !isNaN(val); });
-            minValue = d3.min(allValues);
-            maxValue = d3.max(allValues);
+            minValue = 1;
+            maxValue = 36;
             midValue = (minValue + maxValue) / 2;
             // カラースケール定義
             colorScale = d3.scaleLinear()
                            .domain([minValue, midValue, maxValue])
-                           .range(["red", "yellow", "green"]);
+                           .range(["#e60000", "#ffff00", "#009a00"]);
             return colorScale(parseFloat(d.value));
           }
         }
