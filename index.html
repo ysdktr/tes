@@ -54,11 +54,6 @@
     }
     /* 画面幅<500 */
     @media (max-width: 499px) {
-      h1 {
-        color: blue;
-        margin: 0 auto;
-        font-size: 4px;
-      }
       #data-table {
         font-size: 8px;
         line-height: 1.5;
@@ -80,11 +75,6 @@
     }	  
     /* 画面幅600~799 */
     @media (min-width: 500px) and (max-width: 799px) {
-      h1 {
-        color: red;
-        margin: 0 auto;
-        font-size: 4px;
-      }
       .table-layout {
         font-size: 12px;
       }
@@ -104,9 +94,9 @@
     } 
     /* 画面幅800~ */
     @media (min-width: 800px) {
-      h1 {
-        margin: 0;
-        font-size: 4px;
+      body {
+        width: 95%;
+        margin: 0 auto;
       }
       .table-layout {
         display: flex;
@@ -138,7 +128,6 @@
   </style>
 </head>
 <body>
-  <h1>メンバー別実装順</h1>
   <div class="table-layout">
     <table id="data-table">
       <thead>
